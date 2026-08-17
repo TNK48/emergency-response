@@ -1,0 +1,1980 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>研究室 化学物質事故 初期対応ツール v4｜筑波大学</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP','Meiryo',sans-serif;background:#F8F7F4;color:#1C1C1A;min-height:100vh;line-height:1.6}
+.site-header{background:#0C447C;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.header-inner{max-width:860px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px}
+.hicon{width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.htitle{color:#fff;font-size:15px;font-weight:600;letter-spacing:.02em}
+.hsub{color:rgba(255,255,255,0.65);font-size:11px;margin-top:1px}
+.hbadge{margin-left:auto;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);font-size:10px;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.banner{background:#A32D2D;color:#fff;text-align:center;padding:10px 20px;font-size:13px;font-weight:500}
+.banner strong{font-size:14px}
+.main{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+.mode-sw{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.mode-sw button{padding:11px 12px;border:1.5px solid #D5D3CC;border-radius:10px;background:#fff;color:#5F5E5A;font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s}
+.mode-sw button:hover{border-color:#378ADD;color:#185FA5}
+.mode-sw button.active{background:#185FA5;border-color:#185FA5;color:#fff}
+.mode-sw button svg{width:17px;height:17px;flex-shrink:0}
+.search-wrap{position:relative;margin-bottom:11px}
+.search-wrap input{width:100%;padding:11px 42px 11px 15px;font-size:14px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:10px;background:#fff;color:#1C1C1A;-webkit-appearance:none}
+.search-wrap input:focus{outline:none;border-color:#378ADD;box-shadow:0 0 0 3px rgba(55,138,221,.15)}
+.search-wrap input::placeholder{color:#B4B2A9}
+.sicon{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:#B4B2A9;pointer-events:none}
+.sicon svg{width:17px;height:17px}
+.tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{padding:5px 13px;border:1px solid #D5D3CC;border-radius:16px;background:#fff;color:#5F5E5A;font-size:12px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .15s}
+.tabs button:hover{border-color:#378ADD;color:#185FA5}
+.tabs button.active{background:#0C447C;border-color:#0C447C;color:#fff}
+.cnt{font-size:11px;color:#5F5E5A;margin-bottom:9px;background:#EDECE8;display:inline-block;padding:2px 8px;border-radius:10px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+.chips button{padding:7px 13px;background:#fff;border:1px solid #D5D3CC;border-radius:8px;font-size:12px;font-family:inherit;color:#3A3935;cursor:pointer;font-weight:500;transition:all .15s;display:flex;align-items:center;gap:5px}
+.chips button svg{width:14px;height:14px}
+.chips button.active,.chips button:hover{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
+.sym-intro{font-size:12px;color:#5F5E5A;margin-bottom:9px}
+.card-list{display:flex;flex-direction:column;gap:7px}
+.card{background:#fff;border:1px solid #EDECE8;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.card-hdr{display:flex;align-items:center;gap:9px;padding:13px 15px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.rbadge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;white-space:nowrap;letter-spacing:.04em;flex-shrink:0}
+.rh{background:#FCEBEB;color:#A32D2D}
+.rm{background:#FAEEDA;color:#854F0B}
+.rl{background:#EAF3DE;color:#3B6D11}
+.cname{font-size:14px;font-weight:600;color:#1C1C1A;flex:1;min-width:0}
+.ccat{font-size:11px;color:#B4B2A9;white-space:nowrap;flex-shrink:0}
+.chev{color:#B4B2A9;transition:transform .25s ease;flex-shrink:0;width:17px;height:17px}
+.chev.open{transform:rotate(180deg)}
+.cbody{border-top:1px solid #EDECE8;max-height:0;overflow:hidden;transition:max-height .35s ease}
+.cbody.open{max-height:1400px}
+.itabs{display:flex;border-bottom:1px solid #EDECE8;background:#F8F7F4}
+.itab{flex:1;padding:9px 5px;font-size:12px;font-weight:600;color:#5F5E5A;background:transparent;border:none;font-family:inherit;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+.itab svg{width:13px;height:13px}
+.itab:hover{color:#185FA5}
+.itab.active{color:#185FA5;border-bottom-color:#185FA5;background:#fff}
+.itab.ftab.active{color:#C2410C;border-bottom-color:#C2410C}
+.pane{display:none;padding:15px;flex-direction:column;gap:13px}
+.pane.active{display:flex}
+.contra{background:#FCEBEB;border:1px solid #F7C1C1;border-radius:10px;overflow:hidden}
+.contra-hdr{background:#A32D2D;padding:8px 13px;display:flex;align-items:center;gap:8px}
+.contra-hdr span{color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em}
+.contra-hdr svg{width:15px;height:15px;color:#fff;flex-shrink:0}
+.contra-list{list-style:none;padding:9px 13px;display:flex;flex-direction:column;gap:5px}
+.contra-list li{display:flex;gap:8px;font-size:12px;font-weight:700;color:#791F1F;line-height:1.5;align-items:flex-start}
+.contra-list li::before{content:'✕';color:#A32D2D;font-size:11px;font-weight:900;margin-top:1px;flex-shrink:0}
+.delayed{background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;overflow:hidden}
+.delayed-hdr{background:#F59E0B;padding:8px 13px;display:flex;align-items:center;gap:8px}
+.delayed-hdr span{color:#fff;font-size:11px;font-weight:700}
+.delayed-hdr svg{width:14px;height:14px;color:#fff;flex-shrink:0}
+.delayed-body{padding:9px 13px;font-size:12px;color:#78350F;line-height:1.6}
+.abox{border-radius:8px;padding:10px 13px;font-size:12px;line-height:1.6;border-left:3px solid;border-radius:0}
+.ared{background:#FCEBEB;color:#791F1F;border-color:#A32D2D}
+.aamb{background:#FAEEDA;color:#633806;border-color:#854F0B}
+.ablu{background:#E6F1FB;color:#0C447C;border-color:#185FA5}
+.slabel{font-size:10px;font-weight:700;letter-spacing:.08em;color:#B4B2A9;text-transform:uppercase;margin-bottom:5px}
+.scontent{font-size:12px;color:#3A3935;line-height:1.6}
+.steps{list-style:none;display:flex;flex-direction:column}
+.steps li{display:flex;gap:9px;align-items:flex-start;padding:6px 0;border-bottom:1px solid #EDECE8;font-size:12px;color:#3A3935;line-height:1.5}
+.steps li:last-child{border-bottom:none;padding-bottom:0}
+.snum{min-width:20px;height:20px;background:#185FA5;color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.fnum{min-width:20px;height:20px;background:#C2410C;color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.contacts{display:flex;flex-direction:column}
+.crow{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #EDECE8;font-size:12px}
+.crow:last-child{border-bottom:none;padding-bottom:0}
+.clabel{color:#5F5E5A;min-width:120px;flex-shrink:0;font-size:11px}
+.cval{color:#1C1C1A;font-weight:600}
+.fproh{background:#FFF7ED;border:1px solid #FDBA74;border-radius:10px;overflow:hidden}
+.fproh-hdr{background:#C2410C;padding:8px 13px;display:flex;align-items:center;gap:8px}
+.fproh-hdr span{color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em}
+.fproh-hdr svg{width:15px;height:15px;color:#fff;flex-shrink:0}
+.fproh-list{list-style:none;padding:9px 13px;display:flex;flex-direction:column;gap:5px}
+.fproh-list li{display:flex;gap:8px;font-size:12px;font-weight:700;color:#7A2E0E;line-height:1.5;align-items:flex-start}
+.fproh-list li::before{content:'✕';color:#C2410C;font-size:11px;font-weight:900;margin-top:1px;flex-shrink:0}
+.fmtd{background:#fff;border:1px solid #EDECE8;border-radius:10px;overflow:hidden}
+.frow{display:flex;align-items:flex-start;gap:9px;padding:8px 13px;border-bottom:1px solid #EDECE8;font-size:12px}
+.frow:last-child{border-bottom:none}
+.flbl{min-width:56px;color:#5F5E5A;font-size:11px;font-weight:600;flex-shrink:0;padding-top:1px}
+.fval{color:#1C1C1A;line-height:1.5}
+.fval strong{color:#7A2E0E}
+.sym-card{background:#fff;border:1px solid #EDECE8;border-radius:10px;padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .15s}
+.sym-card:hover{border-color:#185FA5;background:#E6F1FB}
+.sym-card .cname{font-size:13px}
+.nores{text-align:center;padding:40px 20px;color:#B4B2A9;font-size:13px}
+.nores svg{width:40px;height:40px;margin:0 auto 10px;display:block}
+.footer{max-width:860px;margin:0 auto;padding:20px 16px;border-top:1px solid #EDECE8;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.footer p{font-size:11px;color:#B4B2A9;line-height:1.6}
+.footer-links{display:flex;gap:14px;flex-wrap:wrap}
+.footer-links a{font-size:11px;color:#185FA5;text-decoration:none}
+.footer-links a:hover{text-decoration:underline}
+.hidden{display:none!important}
+@media(max-width:480px){.hbadge,.ccat{display:none}.clabel{min-width:90px}}
+
+/* 医療者モード トグル */
+.cl-toggle-wrap{display:flex;align-items:center;gap:8px;margin-left:auto}
+.cl-label{font-size:11px;color:rgba(255,255,255,0.75);white-space:nowrap}
+.cl-switch{position:relative;width:40px;height:22px;flex-shrink:0}
+.cl-switch input{opacity:0;width:0;height:0}
+.cl-slider{position:absolute;inset:0;background:rgba(255,255,255,0.2);border-radius:22px;cursor:pointer;transition:.2s}
+.cl-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.cl-switch input:checked+.cl-slider{background:#22c55e}
+.cl-switch input:checked+.cl-slider:before{transform:translateX(18px)}
+/* 医療者専用情報ブロック */
+.cl-block{display:none;background:#F0FDF4;border:1px solid #86EFAC;border-radius:10px;overflow:hidden}
+.cl-block.active{display:block}
+.cl-block-hdr{background:#16A34A;padding:8px 13px;display:flex;align-items:center;gap:8px}
+.cl-block-hdr span{color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em}
+.cl-block-hdr svg{width:14px;height:14px;color:#fff;flex-shrink:0}
+.cl-rows{padding:9px 13px;display:flex;flex-direction:column;gap:6px}
+.cl-row{display:flex;align-items:flex-start;gap:8px;font-size:12px;padding:4px 0;border-bottom:1px solid #BBF7D0}
+.cl-row:last-child{border-bottom:none;padding-bottom:0}
+.cl-lbl{min-width:90px;color:#15803D;font-weight:700;font-size:11px;flex-shrink:0;padding-top:1px}
+.cl-val{color:#14532D;line-height:1.6}
+/* AI事故推定モード */
+.ai-mode-section{background:#fff;border:1.5px solid #D5D3CC;border-radius:14px;padding:16px;margin-bottom:12px}
+.ai-mode-title{font-size:13px;font-weight:700;color:#1C1C1A;display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.ai-mode-title svg{width:16px;height:16px;color:#185FA5}
+.ai-mode-sub{font-size:11px;color:#5F5E5A;margin-bottom:10px;line-height:1.6}
+.ai-textarea{width:100%;padding:10px 13px;font-size:13px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:9px;resize:vertical;min-height:72px;color:#1C1C1A;background:#F8F7F4;transition:.15s}
+.ai-textarea:focus{outline:none;border-color:#378ADD;background:#fff;box-shadow:0 0 0 3px rgba(55,138,221,.12)}
+.ai-textarea::placeholder{color:#B4B2A9}
+.ai-btn{margin-top:8px;width:100%;padding:10px;background:#185FA5;color:#fff;font-size:13px;font-weight:700;font-family:inherit;border:none;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.15s}
+.ai-btn:hover:not(:disabled){background:#0C447C}
+.ai-btn:disabled{opacity:.55;cursor:not-allowed}
+.ai-btn svg{width:15px;height:15px}
+.ai-disclaimer{font-size:10px;color:#B4B2A9;margin-top:7px;line-height:1.5;text-align:center}
+.ai-result{margin-top:12px;background:#E6F1FB;border:1px solid #B3D4F5;border-radius:10px;overflow:hidden}
+.ai-result-hdr{background:#185FA5;padding:8px 13px;display:flex;align-items:center;gap:7px}
+.ai-result-hdr span{color:#fff;font-size:11px;font-weight:700}
+.ai-result-hdr svg{width:13px;height:13px;color:rgba(255,255,255,0.8);flex-shrink:0}
+.ai-result-body{padding:12px 13px;font-size:12px;color:#0C447C;line-height:1.8;white-space:pre-wrap;max-height:320px;overflow-y:auto}
+.ai-result-warn{background:#FFF3CD;border-top:1px solid #FDE68A;padding:8px 13px;font-size:10px;color:#854F0B;display:flex;align-items:flex-start;gap:5px}
+.ai-result-warn svg{width:12px;height:12px;flex-shrink:0;margin-top:1px;color:#F59E0B}
+.ai-loading{display:flex;align-items:center;gap:8px;padding:14px;color:#185FA5;font-size:12px}
+.ai-spinner{width:16px;height:16px;border:2px solid #B3D4F5;border-top-color:#185FA5;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== 詳細情報モーダル ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-sheet{background:#fff;border-radius:18px 18px 0 0;width:100%;max-width:520px;max-height:88vh;display:flex;flex-direction:column;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-hdr{padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #EDECE8;flex-shrink:0}
+.modal-hdr-icon{width:34px;height:34px;border-radius:9px;background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-hdr-icon svg{width:17px;height:17px;color:#185FA5}
+.modal-title{font-size:14px;font-weight:700;color:#1C1C1A;flex:1}
+.modal-chem{font-size:11px;color:#5F5E5A}
+.modal-close{background:none;border:none;cursor:pointer;color:#B4B2A9;font-size:20px;padding:4px;line-height:1;border-radius:6px}
+.modal-close:hover{background:#F0EFEB;color:#1C1C1A}
+.modal-body{overflow-y:auto;padding:12px 16px 24px;flex:1}
+.modal-sect{margin-bottom:14px}
+.modal-sect-title{font-size:11px;font-weight:700;color:#5F5E5A;letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid #EDECE8}
+.modal-row{display:flex;gap:8px;padding:5px 0;font-size:12px;border-bottom:1px solid #F5F4F0}
+.modal-row:last-child{border-bottom:none}
+.modal-lbl{min-width:80px;color:#5F5E5A;font-weight:600;flex-shrink:0;font-size:11px;padding-top:1px}
+.modal-val{color:#1C1C1A;line-height:1.6;flex:1}
+.modal-link{display:flex;align-items:center;gap:7px;padding:8px 10px;background:#F8F7F4;border-radius:8px;text-decoration:none;color:#185FA5;font-size:12px;font-weight:600;margin-bottom:6px;transition:.15s}
+.modal-link:hover{background:#E6F1FB}
+.modal-link svg{width:14px;height:14px;flex-shrink:0}
+.modal-warn{background:#FFF3CD;border:1px solid #FDE68A;border-radius:8px;padding:8px 10px;font-size:11px;color:#854F0B;display:flex;gap:6px;margin-bottom:10px}
+.modal-warn svg{width:13px;height:13px;flex-shrink:0;margin-top:1px;color:#F59E0B}
+.detail-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;background:#E6F1FB;border:1px solid #B3D4F5;border-radius:6px;font-size:11px;color:#185FA5;font-weight:600;cursor:pointer;font-family:inherit;margin-top:6px;transition:.15s}
+.detail-btn:hover{background:#CCE4F7}
+.detail-btn svg{width:12px;height:12px}
+</style>
+</head>
+<body>
+
+
+<!-- ===== 詳細情報モーダル ===== -->
+<div class="modal-overlay" id="detail-modal" onclick="closeModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-hdr">
+      <div class="modal-hdr-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 6v4m0 4h.01"/></svg></div>
+      <div style="flex:1"><div class="modal-title" id="modal-chem-name">詳細情報</div><div class="modal-chem" id="modal-chem-sub"></div></div>
+      <button class="modal-close" onclick="document.getElementById('detail-modal').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body-content"></div>
+  </div>
+</div>
+
+<div id="main-wrap"><header class="site-header">
+  <div class="header-inner">
+    <div class="hicon">🧪</div>
+    <div>
+      <div class="htitle">化学物質事故 初期対応ツール</div>
+      <div class="hsub">筑波大学 環境安全管理室</div>
+    </div>
+    <div class="hbadge">ver. 5.0 β（2026年5月）</div>
+    <div class="cl-toggle-wrap">
+      <span class="cl-label">医療・管理者向け</span>
+      <label class="cl-switch">
+        <input type="checkbox" id="cl-toggle" onchange="toggleClinician(this.checked)">
+        <span class="cl-slider"></span>
+      </label>
+    </div>
+  </div>
+</header>
+
+<div style="text-align:right;padding:4px 12px 0;max-width:520px;margin:0 auto"><button onclick="showAdminPage()" style="background:none;border:none;font-size:10px;color:#B4B2A9;cursor:pointer;font-family:inherit;padding:2px 6px">⚙ 管理者</button></div>
+<div class="banner">
+  <strong>緊急時は 119番</strong>　／　症状の相談は <strong>7119番</strong>（救急安心センター）
+</div>
+
+<main class="main">
+  <div class="mode-sw" style="grid-template-columns:1fr 1fr 1fr">
+    <button class="active" id="btn-name" onclick="setMode('name')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+      物質名で検索
+    </button>
+    <button id="btn-sym" onclick="setMode('sym')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      症状・事象から逆引き
+    </button>
+    <button id="btn-ai" onclick="setMode('ai')" style="border-color:#B3D4F5;color:#185FA5">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 010 2h-1v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1H2a1 1 0 010-2h1a7 7 0 017-7h1V5.73A2 2 0 0110 4a2 2 0 012-2z"/></svg>
+      AI事故推定
+    </button>
+  </div>
+
+  <div id="name-mode">
+    <div class="search-wrap">
+      <input type="text" id="q" placeholder="物質名・別名・CAS番号で検索（例：アセトン、MeOH、67-56-1…）" oninput="doFilter()" autocomplete="off">
+      <span class="sicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+    </div>
+    <div class="tabs">
+      <button class="active" onclick="setTab('all',this)">すべて</button>
+      <button onclick="setTab('solvent',this)">有機溶媒</button>
+      <button onclick="setTab('acid',this)">酸塩基</button>
+      <button onclick="setTab('inorganic',this)">無機・金属</button>
+      <button onclick="setTab('high',this)">⚠ 高リスク優先</button>
+    </div>
+    <div class="cnt" id="cnt"></div>
+    <div class="card-list" id="results"></div>
+  </div>
+
+  <div id="sym-mode" class="hidden">
+    <p class="sym-intro">症状・状況をクリックして関連物質を表示。物質名をクリックすると詳細が開きます。</p>
+    <div class="chips">
+      <button onclick="symSearch(this,'皮膚灼熱感・熱傷')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+        皮膚灼熱感・熱傷
+      </button>
+      <button onclick="symSearch(this,'目の痛み・刺激')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        目の痛み・刺激
+      </button>
+      <button onclick="symSearch(this,'吸入・頭痛・めまい')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
+        吸入・頭痛・めまい
+      </button>
+      <button onclick="symSearch(this,'針刺し・皮下注入')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2l4 4-4 4"/><path d="M14.5 5.5L22 6M2 20l10-10"/><path d="M2 14l6 6"/></svg>
+        針刺し・皮下注入
+      </button>
+      <button onclick="symSearch(this,'吐き気・嘔吐')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 15s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        吐き気・嘔吐
+      </button>
+      <button onclick="symSearch(this,'意識障害・痙攣')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        意識障害・痙攣
+      </button>
+      <button onclick="symSearch(this,'火災・発火')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+        火災・発火
+      </button>
+      <button onclick="symSearch(this,'水との反応・爆発')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        水との反応・爆発
+      </button>
+    </div>
+    <div class="cnt hidden" id="sym-cnt"></div>
+    <div class="card-list" id="sym-results">
+      <div class="nores">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        症状をクリックして検索してください
+      </div>
+    </div>
+  </div>
+  <div id="ai-mode" class="hidden">
+    <div class="ai-mode-section">
+      <div class="ai-mode-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        AI事故推定モード
+      </div>
+      <p class="ai-mode-sub">「甘いにおいがする」「目が充血している」「学生が倒れている」など、今の状況を自由に入力してください。AIが物質の候補と初期対応を提示します。</p>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <div style="flex:1">
+          <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">建物・場所（任意）</label>
+          <input type="text" id="ai-location" placeholder="例：総合研究棟B・B103" style="width:100%;padding:8px 11px;font-size:13px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;background:#F8F7F4;color:#1C1C1A;outline:none" onfocus="this.style.borderColor='#378ADD';this.style.background='#fff'" onblur="this.style.borderColor='#D5D3CC';this.style.background='#F8F7F4'">
+        </div>
+      </div>
+      <textarea class="ai-textarea" id="ai-input" placeholder="例：有機溶媒を扱っていた学生が気分不良を訴えている。甘いにおいがする。頭痛とめまいがある。"></textarea>
+      <button class="ai-btn" id="ai-submit-btn" onclick="runAI()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 2 11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        AIに推定してもらう
+      </button>
+      <p class="ai-disclaimer">⚠ AIの提示内容はあくまで参考候補です。確定診断ではありません。必ず医療者・専門家の判断を優先してください。</p>
+      <div id="ai-result-area"></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer">
+    <p>本ツールは初期対応の参考情報です。重篤な場合は必ず専門医の診断を受けてください。<br>内容に関する問い合わせ：環境安全管理室</p>
+    <div class="footer-links">
+      <a href="https://chemm.hhs.gov/" target="_blank" rel="noopener">CHEMM（英語）↗</a>
+      <a href="https://response.restoration.noaa.gov/cameochemicals" target="_blank" rel="noopener">CAMEO Chemicals↗</a>
+      <a href="https://www.atsdr.cdc.gov/" target="_blank" rel="noopener">ATSDR↗</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const D=[
+{id:'acetone',name:'アセトン',cat:'solvent',catL:'有機溶媒',risk:'low',hazard:'fire',search:'アセトン ジメチルケトン プロパノン acetone dimethyl ketone propanone 67-64-1',
+ law:'消防法：第4類第1石油類 ／ 毒劇法：非該当 ／ 有機則（第2種）',
+ use:'ガラス器具洗浄、低温バス（ドライアイスと併用）、再結晶',
+ sym:['吸入・頭痛・めまい','吐き気・嘔吐'],
+ alert:{t:'aamb',s:'引火点-18℃。換気の悪い場所での大量使用は火災リスクあり。静電気にも注意。'},
+ ng:['嘔吐させない（誤嚥リスク）'],
+ delayed:null,
+ steps:['直ちに新鮮な空気へ移動','皮膚・目に付着した場合は流水で15分以上洗浄','症状が続く場合は受診先に連絡','PIに報告し記録を残す'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ'],ext:'泡・粉末・CO₂消火器',evac:'蒸気は床面を流れる。低所に注意して退避',leak:'砂・吸着剤で回収。火気・静電気を排除',steps:['退避・換気確保・火気遮断','粉末またはCO₂消火器で対応','PIに報告']}},
+
+{id:'methanol',name:'メタノール',cat:'solvent',catL:'有機溶媒',risk:'high',hazard:'both',search:'メタノール メチルアルコール 木精 methanol MeOH CH3OH 67-56-1',
+ law:'消防法：第4類アルコール類 ／ 毒劇法：劇物 ／ 有機則（第2種）',
+ use:'反応溶媒、HPLC移動相、再結晶',
+ sym:['吸入・頭痛・めまい','吐き気・嘔吐','意識障害・痙攣'],
+ alert:{t:'ared',s:'⚠ 視神経毒性あり。経口・皮膚吸収で失明・死亡の危険。エタノールと絶対に混同しないこと。'},
+ ng:['嘔吐させない','中和処置をしない','素人判断で牛乳・活性炭を飲ませない'],
+ delayed:{time:'12〜24時間後',note:'視力障害・代謝性アシドーシスが遅れて出現する場合あり。症状がなくても受診を強く推奨。'},
+ steps:['皮膚接触：石鹸と流水で15分以上洗浄','吸入：新鮮な空気へ。呼吸困難なら119番','目への付着：流水で15分以上洗眼し眼科受診','経口摂取の疑いがある場合は直ちに救急受診（解毒治療が必要）','PIに即時報告。劇物管理記録に記載'],
+ contacts:[{l:'意識不明・重篤時',v:'119番'},{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ'],ext:'耐アルコール泡・粉末・CO₂消火器',evac:'蒸気は空気より重い。低所に注意して退避',leak:'砂・吸着剤で回収。劇物漏洩記録必須',steps:['退避・火気遮断','耐アルコール泡または粉末消火器で対応','劇物漏洩として記録。PIに即時報告']}},
+
+{id:'ethanol',name:'エタノール',cat:'solvent',catL:'有機溶媒',risk:'low',hazard:'fire',search:'エタノール エチルアルコール alcohol ethanol EtOH C2H5OH 64-17-5',
+ law:'消防法：第4類アルコール類 ／ 毒劇法：非該当',
+ use:'実験器具の殺菌、抽出溶媒、再結晶',
+ sym:['吸入・頭痛・めまい'],
+ alert:{t:'aamb',s:'引火点13℃。裸火・静電気に注意。消毒用との誤飲混同に注意。'},
+ ng:['嘔吐させない（少量摂取の場合）'],
+ delayed:null,
+ steps:['皮膚・目への接触：流水で15分以上洗浄','大量吸入の場合は新鮮な空気へ移動し安静','症状が持続する場合は受診先へ連絡','PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ'],ext:'耐アルコール泡・粉末・CO₂消火器',evac:'換気のよい場所に退避',leak:'砂・吸着剤で回収。火気を排除',steps:['換気確保・火気遮断','耐アルコール泡または粉末消火器で対応','PIに報告']}},
+
+{id:'ether',name:'ジエチルエーテル',cat:'solvent',catL:'有機溶媒',risk:'high',hazard:'fire',search:'ジエチルエーテル エーテル 酸化エチル diethyl ether Et2O 60-29-7',
+ law:'消防法：第4類特殊引火物 ／ 毒劇法：非該当',
+ use:'反応溶媒（グリニャール反応等）、分液抽出',
+ sym:['吸入・頭痛・めまい','意識障害・痙攣','火災・発火'],
+ alert:{t:'ared',s:'⚠ 引火点-45℃。蒸気が床を這うため遠方の火源で引火。過酸化物蓄積による爆発リスクあり（開封後6ヶ月以内に使用）。'},
+ ng:['嘔吐させない','水をかけない（引火拡大）','過酸化物蓄積容器を加熱・衝撃しない'],
+ delayed:{time:'数時間後（過酸化物蓄積品）',note:'蒸留・濃縮中に過酸化物が濃縮され遅発的に爆発する危険あり。古い在庫は必ず過酸化物テストを実施。'},
+ steps:['火災発生時：直ちに退避・119番・PI連絡','吸入した場合：新鮮な空気へ（麻酔様作用あり）','皮膚・目への接触：流水で15分以上洗浄','容器は遮光・低温保管。開封品は半年以内に使用','PIに即時報告'],
+ contacts:[{l:'火災時',v:'119番'},{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水での消火は絶対禁止（引火拡大）','過酸化物蓄積容器を加熱・衝撃しない'],ext:'粉末・CO₂消火器（泡も可）',evac:'蒸気は床面を流れ遠方で引火。低所を避け素早く退避',leak:'砂・吸着剤で回収。大量なら直ちに退避・119番',steps:['直ちに退避・119番','すべての火気・静電気を遮断','粉末またはCO₂消火器で対応（小規模のみ）','過酸化物蓄積容器には衝撃・加熱を与えない']}},
+
+{id:'etoac',name:'酢酸エチル',cat:'solvent',catL:'有機溶媒',risk:'low',hazard:'fire',search:'酢酸エチル 酢エチ ethyl acetate EtOAc 141-78-6',
+ law:'消防法：第4類第1石油類 ／ 毒劇法：非該当 ／ 有機則（第2種）',
+ use:'カラムクロマトグラフィー（展開液）、分液抽出',
+ sym:['吸入・頭痛・めまい'],
+ alert:{t:'aamb',s:'引火点-4℃。目・気道への刺激性あり。大量吸入で麻酔作用。'},
+ ng:['嘔吐させない'],
+ delayed:null,
+ steps:['皮膚・目への接触：流水で15分以上洗浄','吸入：新鮮な空気へ移動','症状が持続する場合は受診先へ連絡','PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ'],ext:'泡・粉末・CO₂消火器',evac:'換気のよい場所に退避',leak:'砂・吸着剤で回収。火気を排除',steps:['換気確保・火気遮断','泡または粉末消火器で対応','PIに報告']}},
+
+{id:'toluene',name:'トルエン',cat:'solvent',catL:'有機溶媒',risk:'med',hazard:'fire',search:'トルエン メチルベンゼン toluene methylbenzene PhCH3 108-88-3',
+ law:'消防法：第4類第1石油類 ／ 毒劇法：劇物 ／ 有機則（第2種）',
+ use:'反応溶媒（高温反応）、ディーン・スターク装置を用いた脱水反応',
+ sym:['吸入・頭痛・めまい','吐き気・嘔吐','意識障害・痙攣'],
+ alert:{t:'aamb',s:'劇物。中枢神経毒性・肝腎毒性あり。皮膚からも吸収される。'},
+ ng:['嘔吐させない（誤嚥・肺炎リスク）'],
+ delayed:{time:'数時間〜24時間後',note:'肝・腎障害が遅れて出現する場合あり。大量曝露後は症状がなくても経過観察を推奨。'},
+ steps:['皮膚接触：石鹸と流水で15分以上洗浄','吸入：新鮮な空気へ。症状が強い場合は救急受診','目への付着：流水で15分以上洗眼','必ずドラフト内で使用','PIに報告。劇物管理記録に記載'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ'],ext:'泡・粉末・CO₂消火器',evac:'蒸気は空気より重い。低所に注意して退避',leak:'砂・吸着剤で回収。劇物漏洩記録必須',steps:['退避・火気遮断','泡または粉末消火器で対応','劇物漏洩として記録。PIに報告']}},
+
+{id:'hexane',name:'ヘキサン',cat:'solvent',catL:'有機溶媒',risk:'med',hazard:'fire',search:'ヘキサン n-ヘキサン hexane n-hexane 110-54-3',
+ law:'消防法：第4類第1石油類 ／ 毒劇法：非該当 ／ 有機則（第2種）',
+ use:'カラムクロマトグラフィー（展開液）、非極性物質の溶解',
+ sym:['吸入・頭痛・めまい','意識障害・痙攣'],
+ alert:{t:'aamb',s:'長期吸入でn-ヘキサンは末梢神経障害（多発性神経炎）を引き起こす。引火点-22℃。'},
+ ng:['嘔吐させない（誤嚥性肺炎リスク）'],
+ delayed:{time:'数週間〜数ヶ月（慢性曝露）',note:'単回大量曝露での遅発毒性は低いが、慢性的な吸入による末梢神経障害（手足のしびれ）は数週〜数ヶ月後に出現することがある。'},
+ steps:['皮膚・目への接触：流水で15分以上洗浄','吸入：新鮮な空気へ。繰り返し吸入には特に注意','PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ'],ext:'泡・粉末・CO₂消火器',evac:'引火点-22℃。蒸気が広範囲に拡散する前に退避',leak:'砂・吸着剤で回収。火気・静電気を排除',steps:['直ちに退避・火気遮断','泡または粉末消火器で対応','PIに報告']}},
+
+{id:'dcm',name:'ジクロロメタン',cat:'solvent',catL:'有機溶媒',risk:'med',hazard:'toxic',search:'ジクロロメタン 塩化メチレン DCM methylene chloride dichloromethane CH2Cl2 75-09-2',
+ law:'消防法：非危険物 ／ 毒劇法：非該当 ／ 特化則（第2種・発がん性）',
+ use:'分液抽出、反応溶媒（低沸点・非引火性を利用）',
+ sym:['吸入・頭痛・めまい','意識障害・痙攣'],
+ alert:{t:'aamb',s:'特定化学物質（第2種）。発がん性あり。代謝産物COによる心毒性に注意。ドラフト内使用必須。'},
+ ng:['嘔吐させない'],
+ delayed:{time:'数時間後',note:'代謝産物の一酸化炭素（CO）が遅れて蓄積する場合あり。大量吸入後は数時間の経過観察を推奨。COHb測定を考慮。'},
+ steps:['吸入：直ちに新鮮な空気へ','大量吸入で意識障害→119番','皮膚・目：流水で15分以上洗浄','特化則管理記録に記載。PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['引火しないが高温で有毒ガス（ホスゲン等）発生。吸入注意'],ext:'粉末・CO₂消火器（水も可）',evac:'密閉空間での高濃度蒸気に注意して退避',leak:'換気確保。砂・吸着剤で回収。特化則として記録',steps:['換気確保・退避','粉末またはCO₂消火器で対応','特化則物質として漏洩記録。PIに報告']}},
+
+{id:'chcl3',name:'クロロホルム',cat:'solvent',catL:'有機溶媒',risk:'high',hazard:'toxic',search:'クロロホルム トリクロロメタン chloroform trichloromethane CHCl3 67-66-3',
+ law:'消防法：非危険物 ／ 毒劇法：劇物 ／ 特化則（第2種・発がん性）',
+ use:'反応溶媒、NMR測定用溶媒（重溶媒原料）',
+ sym:['吸入・頭痛・めまい','意識障害・痙攣','皮膚灼熱感・熱傷'],
+ alert:{t:'ared',s:'⚠ 特定化学物質（第2種）。発がん性・肝腎毒性あり。皮膚から吸収されるため素手での取り扱い厳禁。'},
+ ng:['嘔吐させない','エピネフリン（アドレナリン）投与禁止（心室細動誘発）'],
+ delayed:{time:'24〜48時間後',note:'肝・腎障害が遅れて出現する場合あり。大量曝露後は症状がなくても受診し、肝機能・腎機能の検査を推奨。'},
+ steps:['吸入：直ちに新鮮な空気へ。意識障害があれば119番','皮膚：汚染衣服を脱ぎ流水で15分以上洗浄','目への付着：流水で15分以上洗眼後、眼科受診','PIに即時報告。特化則管理記録に記載'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['高温で有毒ガス（ホスゲン・塩化水素）発生。吸入厳禁','エピネフリン含有消火剤使用禁止'],ext:'粉末・CO₂消火器（水も可）',evac:'分解ガスは有毒。風上に退避',leak:'換気確保。ドラフト内で回収。特化則・劇物として記録',steps:['風上に退避・換気確保','粉末またはCO₂消火器で対応','有毒ガス吸入に注意してマスク着用','特化則・劇物漏洩記録。PIに即時報告']}},
+
+{id:'mecn',name:'アセトニトリル',cat:'solvent',catL:'有機溶媒',risk:'med',hazard:'fire',search:'アセトニトリル メタンカルボニトリル acetonitrile MeCN CH3CN 75-05-8',
+ law:'消防法：第4類第1石油類 ／ 毒劇法：劇物',
+ use:'HPLC移動相、反応溶媒',
+ sym:['吸入・頭痛・めまい','吐き気・嘔吐','意識障害・痙攣'],
+ alert:{t:'aamb',s:'劇物。代謝によりシアン化物を生成（遅延毒性）。症状が遅れて出ることがある。大量曝露は要注意。'},
+ ng:['嘔吐させない','アルコール飲料を飲ませない（シアン代謝を促進）'],
+ delayed:{time:'3〜12時間後',note:'体内でシアン化物に代謝されるため症状が数時間遅れて出現する。大量曝露後は症状がなくても必ず受診し経過観察。'},
+ steps:['皮膚・目への接触：流水で15分以上洗浄','吸入：新鮮な空気へ。症状が遅れる可能性あり','大量曝露では念のため受診を推奨','PIに報告。劇物管理記録に記載'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ','燃焼ガスにシアン化水素が含まれる可能性あり'],ext:'泡・粉末・CO₂消火器',evac:'燃焼ガス吸入に注意。風上に退避',leak:'砂・吸着剤で回収。劇物として記録',steps:['風上に退避・火気遮断','泡または粉末消火器で対応','燃焼ガス吸入に注意','劇物漏洩記録。PIに即時報告']}},
+
+{id:'thf',name:'THF（テトラヒドロフラン）',cat:'solvent',catL:'有機溶媒',risk:'med',hazard:'fire',search:'THF テトラヒドロフラン tetrahydrofuran oxolane 109-99-9',
+ law:'消防法：第4類第1石油類 ／ 毒劇法：非該当 ／ 有機則（第2種）',
+ use:'有機金属反応（リチウム化等）の溶媒、ポリマーの溶解',
+ sym:['吸入・頭痛・めまい','意識障害・痙攣'],
+ alert:{t:'aamb',s:'過酸化物が蓄積しやすい（開封後・長期保管品に注意）。過酸化物蓄積品の蒸発・加熱は爆発の危険あり。'},
+ ng:['嘔吐させない','古い在庫を確認なしに加熱・蒸発させない'],
+ delayed:{time:'数時間後（過酸化物蓄積品）',note:'蒸留・濃縮中に過酸化物が濃縮され遅発的に爆発する危険あり。古い在庫は必ず過酸化物テストを実施。'},
+ steps:['皮膚・目への接触：流水で15分以上洗浄','吸入：新鮮な空気へ','古い在庫は過酸化物テストを実施後に使用','PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ','過酸化物蓄積容器を加熱・衝撃しない'],ext:'泡・粉末・CO₂消火器',evac:'過酸化物蓄積品は爆発危険。直ちに退避',leak:'砂・吸着剤で回収。過酸化物リスクを確認',steps:['過酸化物蓄積の疑いがある場合は直ちに退避・119番','泡または粉末消火器で対応','過酸化物蓄積容器には衝撃・加熱を与えない','PIに報告']}},
+
+{id:'dmf',name:'DMF（ジメチルホルムアミド）',cat:'solvent',catL:'有機溶媒',risk:'med',hazard:'toxic',search:'DMF ジメチルホルムアミド N,N-ジメチルホルムアミド dimethylformamide 68-12-2',
+ law:'消防法：第4類第2石油類 ／ 毒劇法：非該当 ／ 特化則（皮膚吸収注意）',
+ use:'極性溶媒としての反応（SN2反応等）、ペプチド合成',
+ sym:['皮膚灼熱感・熱傷','吸入・頭痛・めまい'],
+ alert:{t:'aamb',s:'特化則対象。皮膚から吸収されやすく肝毒性あり。ニトリル手袋は透過する。ブチルゴム手袋を使用。'},
+ ng:['ニトリル手袋で取り扱わない（透過する）'],
+ delayed:{time:'24〜48時間後',note:'皮膚吸収による肝障害が遅れて出現する場合あり。大量皮膚接触後は症状がなくても受診し肝機能検査を推奨。'},
+ steps:['皮膚接触：直ちに汚染衣服を脱ぎ流水で15分以上洗浄','吸入：新鮮な空気へ','ドラフト内で使用。耐溶剤性手袋（ブチルゴム）を使用','PIに報告。特化則管理記録に記載'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ（引火点54℃）'],ext:'泡・粉末・CO₂消火器',evac:'刺激性蒸気に注意して退避',leak:'砂・吸着剤で回収。特化則物質として記録',steps:['退避・火気遮断','泡または粉末消火器で対応','特化則物質として漏洩記録。PIに報告']}},
+
+{id:'hcl',name:'塩酸',cat:'acid',catL:'酸塩基',risk:'high',hazard:'both',search:'塩酸 塩化水素 hydrochloric acid hydrogen chloride muriatic acid HCl 7647-01-0',
+ law:'消防法：非危険物 ／ 毒劇法：劇物（10%超）',
+ use:'中和、金属の溶解、加水分解反応',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激','吸入・頭痛・めまい'],
+ alert:{t:'ared',s:'⚠ 皮膚・粘膜に強い腐食作用。蒸気吸入で呼吸器障害。目への付着は角膜損傷の危険。'},
+ ng:['中和処置をしない（発熱し損傷拡大）','嘔吐させない','胃洗浄を素人判断で行わない'],
+ delayed:{time:'数時間後（吸入の場合）',note:'高濃度蒸気吸入後、遅発性の気道浮腫・肺炎が出現する場合あり。吸入した場合は症状がなくても経過観察を推奨。'},
+ steps:['皮膚：流水で15分以上洗浄（中和不要）。汚染衣服は脱衣','目：直ちに流水で15分以上洗眼 → 眼科受診必須','吸入：新鮮な空気へ。咳・呼吸困難が続く場合は救急受診','PIに即時報告。劇物管理記録に記載'],
+ contacts:[{l:'目への付着',v:'附属病院眼科'},{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'},{l:'意識不明・重篤時',v:'119番'}],
+ fire:{ng:['引火性なし。ただし金属と反応し水素ガス発生 → 爆発の危険あり'],ext:'大量の水で希釈（引火性なし）',evac:'塩化水素ガスは腐食性・有毒。風上に退避',leak:'大量の水で希釈 → 炭酸ナトリウムで中和。劇物漏洩記録',steps:['風上に退避・換気確保','大量の水で漏洩液を希釈','炭酸ナトリウムで中和後に廃棄','劇物漏洩として記録。PIに即時報告']}},
+
+{id:'h2so4',name:'硫酸',cat:'acid',catL:'酸塩基',risk:'high',hazard:'both',search:'硫酸 sulfuric acid H2SO4 vitriol 7664-93-9',
+ law:'消防法：非危険物 ／ 毒劇法：劇物（10%超）',
+ use:'脱水触媒、酸触媒、廃液のpH調整',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激'],
+ alert:{t:'ared',s:'⚠ 強腐食性。希釈時に発熱（必ず水に酸を少量ずつ加える）。皮膚に付着すると深部熱傷。目への付着は失明の危険あり。'},
+ ng:['中和処置をしない（中和熱で損傷拡大）','嘔吐させない','逆希釈（酸に水を加える）をしない'],
+ delayed:null,
+ steps:['皮膚：大量の流水で15分以上洗浄（粉末状の場合はまず払い落とす）','目：直ちに流水で15分以上洗眼 → 救急受診必須','衣服汚染：直ちに脱衣させながら洗浄','受診先・PIに即時報告。重篤な場合は119番'],
+ contacts:[{l:'目への付着',v:'附属病院眼科'},{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'},{l:'意識不明・重篤時',v:'119番'}],
+ fire:{ng:['水を一気に大量にかけない（水蒸気爆発・飛散のおそれ）','有機物・金属との接触で発熱・発火の危険あり'],ext:'大量の水で徐々に希釈（少量ずつ）',evac:'腐食性蒸気に注意。風上に退避',leak:'乾燥砂で囲い飛散防止 → 少量の水で徐々に希釈 → 炭酸ナトリウムで中和',steps:['風上に退避・換気確保','乾燥砂で漏洩液を囲い拡散防止','少量の水で徐々に希釈 → 炭酸ナトリウムで中和','劇物漏洩記録。PIに即時報告']}},
+
+{id:'hno3',name:'硝酸',cat:'acid',catL:'酸塩基',risk:'high',hazard:'both',search:'硝酸 nitric acid HNO3 7697-37-2',
+ law:'消防法：第6類（酸化性液体） ／ 毒劇法：劇物',
+ use:'金属・無機試料の酸分解（分析の前処理）',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激','吸入・頭痛・めまい'],
+ alert:{t:'ared',s:'⚠ 酸化性液体。皮膚・粘膜を激しく腐食。NO₂ガス発生の危険。皮膚が黄変する（タンパク質変性）。'},
+ ng:['中和処置をしない','嘔吐させない','有機物・可燃物との混触厳禁（発火）'],
+ delayed:{time:'6〜24時間後（吸入の場合）',note:'NO₂吸入による遅発性肺水腫が出現する場合あり。吸入後に症状がなくても必ず受診し6〜24時間経過観察を推奨。'},
+ steps:['皮膚：直ちに大量の流水で15分以上洗浄','目：流水で15分以上洗眼 → 眼科受診','吸入：新鮮な空気へ。NO₂吸入は遅発性肺水腫の危険（数時間後に悪化）','PIに即時報告。症状なくても受診推奨'],
+ contacts:[{l:'目への付着',v:'附属病院眼科'},{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'},{l:'意識不明・重篤時',v:'119番'}],
+ fire:{ng:['有機物・可燃物との接触で発火・爆発（酸化剤）','水を一気に大量にかけない'],ext:'大量の水で希釈（引火性なし）',evac:'NO₂ガスは有毒・腐食性。風上に退避。低所に沈降するので注意',leak:'大量の水で希釈 → 炭酸ナトリウムで中和。可燃物を遠ざける',steps:['風上に退避・換気確保','可燃物を直ちに遠ざける','大量の水で希釈 → 炭酸ナトリウムで中和','NO₂ガス吸入に注意。劇物漏洩記録。PIに即時報告']}},
+
+{id:'acoh',name:'酢酸（氷酢酸）',cat:'acid',catL:'酸塩基',risk:'med',hazard:'fire',search:'酢酸 氷酢酸 エタン酸 acetic acid glacial acetic acid CH3COOH 64-19-7',
+ law:'消防法：第4類第2石油類 ／ 毒劇法：劇物（90%超・氷酢酸）',
+ use:'有機合成における弱酸触媒、緩衝液の調製',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激','吸入・頭痛・めまい'],
+ alert:{t:'aamb',s:'氷酢酸（高濃度）は劇物。蒸気が目・気道を刺激。凍結（16℃以下）に注意（固化した容器の開栓で飛散）。'},
+ ng:['中和処置をしない','嘔吐させない'],
+ delayed:null,
+ steps:['皮膚接触：流水で15分以上洗浄','目への付着：流水で15分以上洗眼後、眼科受診','吸入：新鮮な空気へ','PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ（引火点39℃）'],ext:'泡・粉末・CO₂消火器',evac:'刺激性蒸気に注意して退避',leak:'砂・吸着剤で回収。劇物として記録',steps:['退避・火気遮断','泡または粉末消火器で対応','劇物漏洩として記録。PIに報告']}},
+
+{id:'naoh',name:'水酸化ナトリウム',cat:'acid',catL:'酸塩基',risk:'high',hazard:'toxic',search:'水酸化ナトリウム 苛性ソーダ caustic soda sodium hydroxide NaOH 1310-73-2',
+ law:'消防法：非危険物 ／ 毒劇法：劇物（5%超）',
+ use:'アルカリ触媒、分液時の洗浄、廃液の中和',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激'],
+ alert:{t:'ared',s:'⚠ 目への付着は角膜潰瘍・失明の危険（酸より組織深達性が高い）。固体・濃溶液は特に危険。'},
+ ng:['中和処置をしない（中和熱で損傷拡大）','嘔吐させない','目を擦らない'],
+ delayed:null,
+ steps:['皮膚：直ちに大量の流水で15分以上洗浄','目：直ちに流水で15分以上洗眼 → 救急受診必須（緊急性高い）','衣服汚染：脱衣させながら洗浄','受診先に連絡し医師の指示を仰ぐ','PIに即時報告'],
+ contacts:[{l:'目への付着',v:'附属病院眼科'},{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水を一気に大量にかけない（発熱・飛散）','アルミ・亜鉛容器使用禁止（水素ガス発生）'],ext:'大量の水で希釈（引火性なし）',evac:'固体の飛散・蒸気に注意して退避',leak:'乾燥砂で囲い拡散防止 → 大量の水で希釈 → 希酸で中和',steps:['退避','大量の水で希釈 → 希酸で中和','劇物漏洩として記録。PIに即時報告']}},
+
+{id:'koh',name:'水酸化カリウム',cat:'acid',catL:'酸塩基',risk:'high',hazard:'toxic',search:'水酸化カリウム 苛性カリ caustic potash potassium hydroxide KOH 1310-58-3',
+ law:'消防法：非危険物 ／ 毒劇法：劇物（5%超）',
+ use:'強塩基としての反応、滴定、アルカリ浴',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激'],
+ alert:{t:'ared',s:'⚠ 水酸化ナトリウムと同等の腐食性。目への付着は失明の危険。吸湿性が高く固体でも危険。'},
+ ng:['中和処置をしない','嘔吐させない','目を擦らない'],
+ delayed:null,
+ steps:['皮膚：直ちに大量の流水で15分以上洗浄','目：直ちに流水で15分以上洗眼 → 救急受診必須','受診先に連絡','PIに即時報告'],
+ contacts:[{l:'目への付着',v:'附属病院眼科'},{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水を一気に大量にかけない（発熱・飛散）'],ext:'大量の水で希釈',evac:'固体飛散に注意して退避',leak:'水で希釈 → 希酸で中和',steps:['退避','水で希釈 → 希酸で中和','劇物漏洩として記録。PIに即時報告']}},
+
+{id:'nh3',name:'アンモニア水',cat:'acid',catL:'酸塩基',risk:'med',hazard:'toxic',search:'アンモニア水 アンモニア ammonia NH3 7664-41-7',
+ law:'消防法：非危険物 ／ 毒劇法：劇物（10%超）',
+ use:'金属錯体の形成、弱塩基としての反応、中和',
+ sym:['吸入・頭痛・めまい','目の痛み・刺激','皮膚灼熱感・熱傷'],
+ alert:{t:'aamb',s:'刺激臭が強い。高濃度蒸気は気道・肺に深刻なダメージ。換気必須。'},
+ ng:['中和処置をしない','嘔吐させない'],
+ delayed:{time:'数時間後（大量吸入の場合）',note:'高濃度アンモニア吸入後に遅発性の気道・肺障害が出現する場合あり。大量吸入後は症状がなくても経過観察を推奨。'},
+ steps:['吸入：直ちに新鮮な空気へ。呼吸困難なら119番','目への付着：流水で15分以上洗眼後、眼科受診','皮膚接触：流水で15分以上洗浄','PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'},{l:'意識不明・重篤時',v:'119番'}],
+ fire:{ng:['酸との混触で激しく反応'],ext:'大量の水で希釈・吸収',evac:'刺激性ガス。風上・高所に退避',leak:'大量の水で希釈。希塩酸で中和',steps:['風上に退避','大量の水で漏洩液を希釈','希塩酸で中和（少量ずつ）','劇物漏洩として記録。PIに報告']}},
+
+{id:'uranyl',name:'酢酸ウラニル',cat:'inorganic',catL:'無機・金属',risk:'high',hazard:'both',search:'酢酸ウラニル 二酢酸ウラニル uranyl acetate UO2(CH3COO)2 541-09-3',
+ law:'消防法：非危険物 ／ 毒劇法：劇物 ／ 放射線障害防止法・核燃料物質規制法（国際規制物質）',
+ use:'電子顕微鏡試料染色（生物系研究室）',
+ sym:['針刺し・皮下注入','皮膚灼熱感・熱傷'],
+ alert:{t:'ared',s:'⚠ 放射性＋重金属毒性の複合リスク。国際規制物質のため原子力規制庁への通報義務あり。腎毒性が主な健康影響。α線は感知しにくい機器あり。'},
+ ng:['嘔吐させない','創部を素手で触らない（汚染拡大）','汚染水を下水に流さない'],
+ delayed:{time:'24〜72時間後',note:'腎毒性（急性尿細管壊死）が遅れて出現する場合あり。皮下注入後は症状がなくても入院経過観察を強く推奨。'},
+ steps:['直ちに患部を流水で10分以上洗浄（流水2分は不十分）','汚染衣服の除去','受診先に連絡 → リスク安全管理課 → アイソトープセンターへ','指導教員（PI）に直ちに連絡（不在時も携帯へ）','受診先：筑波大学附属病院（放射性物質の拠点病院）','支援室・研究推進部経由で原子力規制庁への通報手続き'],
+ contacts:[{l:'アイソトープセンター',v:'アイソトープセンター（内線は学内マニュアル参照）'},{l:'受診先',v:'筑波大学附属病院'},{l:'原子力規制庁通報',v:'支援室・研究推進部経由'}],
+ fire:{ng:['放射性汚染物を火中に投じない','汚染廃水を下水に流さない'],ext:'大量の水で消火（放射性汚染に注意）',evac:'放射性汚染のおそれあり。直ちに退避し関係者に連絡',leak:'汚染範囲を表示・立入禁止。アイソトープセンターに即時連絡',steps:['直ちに退避・立入禁止措置','アイソトープセンターに即時連絡','原子力規制庁への通報（支援室経由）','汚染水の拡散防止（下水に流さない）']}},
+
+{id:'nacn',name:'シアン化ナトリウム',cat:'inorganic',catL:'無機・金属',risk:'high',hazard:'both',search:'シアン化ナトリウム 青酸ナトリウム sodium cyanide NaCN 143-33-9',
+ law:'消防法：非危険物 ／ 毒劇法：毒物 ／ 厳重保管義務',
+ use:'シアノ化反応、電気メッキの研究',
+ sym:['吸入・頭痛・めまい','意識障害・痙攣'],
+ alert:{t:'ared',s:'⚠ 猛毒。酸と接触すると猛毒の青酸ガス（HCN）発生。呼吸停止に至る可能性あり。解毒薬（亜硝酸ナトリウム等）あり。'},
+ ng:['酸と混触させない（HCNガス発生）','嘔吐させない','口対口人工呼吸をしない（救助者が二次被害）'],
+ delayed:null,
+ steps:['直ちに119番（解毒薬投与が必要）','酸との混触を絶対に避ける','吸入・皮膚接触どちらも緊急対応','受診先・PIに即時連絡','毒物管理記録の確認と報告'],
+ contacts:[{l:'意識不明・重篤時',v:'119番'}],
+ fire:{ng:['酸性ガスとの接触でHCNガス発生','口対口人工呼吸禁止（救助者が二次被害）'],ext:'大量の水・泡消火器',evac:'HCNガスは猛毒。直ちに風上に退避。自己呼吸器なしに近づかない',leak:'直ちに退避・119番。専門家到着まで近づかない',steps:['直ちに退避・119番','HCNガス発生の危険がある場合は絶対に近づかない','毒物管理者・PIに即時連絡','専門業者による除染']}},
+
+{id:'azide',name:'アジ化ナトリウム',cat:'inorganic',catL:'無機・金属',risk:'high',hazard:'both',search:'アジ化ナトリウム sodium azide NaN3 26628-22-8',
+ law:'消防法：非危険物 ／ 毒劇法：毒物',
+ use:'アジド化合物の合成（クリックケミストリー等）',
+ sym:['吸入・頭痛・めまい','意識障害・痙攣','水との反応・爆発'],
+ alert:{t:'ared',s:'⚠ 猛毒＋爆発性。酸と反応して爆発性のHN3ガス発生。廃棄時は排水に流さないこと（配管内で金属アジドが生成し爆発事故の前例あり）。'},
+ ng:['酸と混触させない（HN3ガス発生・爆発）','排水・下水に流さない（配管爆発）','嘔吐させない'],
+ delayed:null,
+ steps:['吸入・皮膚接触：直ちに119番','酸との混触を避ける','廃棄は必ず専門業者に依頼（排水への廃棄絶対禁止）','受診先・PIに即時連絡'],
+ contacts:[{l:'意識不明・重篤時',v:'119番'}],
+ fire:{ng:['酸との接触で爆発性HN3ガス発生','排水・下水に流さない（配管爆発）'],ext:'大量の水（爆発に注意）',evac:'爆発・有毒ガスの危険。直ちに退避・119番',leak:'直ちに退避・119番。専門家到着まで近づかない',steps:['直ちに退避・119番','酸との混触を絶対に避ける','専門業者による除染・廃棄','毒物管理者・PIに即時連絡']}},
+
+{id:'na_metal',name:'ナトリウム（金属）',cat:'inorganic',catL:'無機・金属',risk:'high',hazard:'both',search:'ナトリウム 金属ナトリウム sodium metal Na 7440-23-5',
+ law:'消防法：第3類（自然発火・禁水性） ／ 毒劇法：劇物',
+ use:'溶媒（THF等）の脱水、強塩基の調製',
+ sym:['火災・発火','水との反応・爆発','皮膚灼熱感・熱傷'],
+ alert:{t:'ared',s:'⚠ 水・湿気と激しく反応し発火・爆発。消火に水は絶対禁止（乾燥砂を使用）。少量でも皮膚に付着すると化学熱傷。'},
+ ng:['水で消火しない（水素爆発・飛散）','泡消火剤を使わない（水分含有）','CO₂消火器を使わない（Naと反応）','ハロン系消火剤を使わない'],
+ delayed:null,
+ steps:['火災：119番。水消火絶対禁止。乾燥砂で窒息消火','皮膚接触：乾いた布で素早く除去 → 流水で洗浄（一気に大量の水で）','油中保管を確認。微小片も危険','受診先・PIに即時連絡'],
+ contacts:[{l:'火災時',v:'119番'},{l:'皮膚熱傷',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水での消火は絶対禁止（水素爆発・飛散）','泡消火剤禁止（水分含有）','CO₂消火器禁止（Na₂O₂生成・再発火）','ハロン系消火剤禁止'],ext:'乾燥砂・乾燥粉末消火剤（D種）のみ',evac:'爆発・飛散の危険あり。直ちに退避・建物外へ',leak:'油中に確実に戻す。微小片もすべて回収し油中保管',steps:['直ちに退避・119番','乾燥砂で覆い窒息消火（水・泡・CO₂は絶対使用禁止）','消防に「禁水性物質」と伝える','劇物として記録。PIに即時報告']}},
+
+{id:'nah',name:'水素化ナトリウム',cat:'inorganic',catL:'無機・金属',risk:'high',hazard:'both',search:'水素化ナトリウム sodium hydride NaH 7646-69-7',
+ law:'消防法：第3類（自然発火・禁水性） ／ 毒劇法：非該当',
+ use:'強塩基としての脱プロトン化反応',
+ sym:['火災・発火','水との反応・爆発','皮膚灼熱感・熱傷'],
+ alert:{t:'ared',s:'⚠ 水と激しく反応し水素ガス発生→発火。油分散体（ミネラルオイル懸濁）として市販されているが乾燥品は特に危険。消火は乾燥砂。'},
+ ng:['水で消火しない（水素ガス発生・爆発）','泡消火剤を使わない','CO₂消火器を使わない'],
+ delayed:null,
+ steps:['火災：119番。水消火絶対禁止。乾燥砂で消火','皮膚接触：油を除去後、大量の水で洗浄','不活性ガス雰囲気（窒素・アルゴン）での取り扱いを徹底','廃棄は少量ずつエタノールで失活後、専門業者へ','受診先・PIに即時連絡'],
+ contacts:[{l:'火災時',v:'119番'},{l:'皮膚熱傷',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水での消火は絶対禁止（水素爆発）','泡消火剤禁止（水分含有）','CO₂消火器禁止'],ext:'乾燥砂・乾燥粉末消火剤（D種）のみ',evac:'水素爆発・飛散の危険あり。直ちに退避',leak:'乾燥状態を保ち油中に戻す。水・湿気との接触を避ける',steps:['直ちに退避・119番','乾燥砂で覆い窒息消火（水禁止）','消防に「禁水性物質」と伝える','PIに即時報告']}},
+
+{id:'kmno4',name:'過マンガン酸カリウム',cat:'inorganic',catL:'無機・金属',risk:'med',hazard:'toxic',search:'過マンガン酸カリウム permanganate potassium permanganate KMnO4 7722-64-7',
+ law:'消防法：第1類（酸化性固体） ／ 毒劇法：非該当 ／ 麻薬向精神薬原料',
+ use:'酸化反応、TLC（薄層クロマトグラフィー）の発色試薬',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激'],
+ alert:{t:'aamb',s:'麻薬向精神薬原料として管理（使用記録・保管義務）。可燃物との接触で発火の危険。皮膚・目を着色・腐食する。'},
+ ng:['可燃物・有機物との混触禁止（発火・爆発）','嘔吐させない'],
+ delayed:null,
+ steps:['皮膚・目への付着：流水で15分以上洗浄','目への付着は眼科受診を検討','可燃物（有機溶媒等）との接触を避ける','麻薬向精神薬原料として使用記録を保管','PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['有機物・可燃物との接触で発火・爆発（酸化剤）','少量の水では消火しない（酸化反応継続）'],ext:'大量の水で希釈・冷却',evac:'酸化性ガスに注意して退避',leak:'砂・不活性物質で覆い拡散防止。可燃物を遠ざける',steps:['可燃物を直ちに遠ざける','大量の水で希釈・冷却','麻薬向精神薬原料として漏洩記録。PIに報告']}},
+
+{id:'k2cr2o7',name:'二クロム酸カリウム',cat:'inorganic',catL:'無機・金属',risk:'high',hazard:'both',search:'二クロム酸カリウム 重クロム酸カリウム potassium dichromate K2Cr2O7 7778-50-9',
+ law:'消防法：第1類（酸化性固体） ／ 毒劇法：劇物 ／ 特化則（六価クロム・発がん性）',
+ use:'強力な酸化剤、重クロム酸混液による器具洗浄',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激','吸入・頭痛・めまい'],
+ alert:{t:'ared',s:'⚠ 六価クロムは発がん性（特定化学物質第2種）。皮膚潰瘍・鼻中隔穿孔の危険あり。廃棄は三価クロムに還元後、産廃処理。'},
+ ng:['可燃物・有機物との混触禁止（酸化剤）','嘔吐させない','廃液を下水に流さない（還元・産廃処理が必要）'],
+ delayed:{time:'数日後（皮膚潰瘍）',note:'皮膚に付着した場合、初期には刺激が軽微でも数日後にクロム潰瘍が出現する場合あり。皮膚接触後は経過観察を推奨。'},
+ steps:['皮膚接触：直ちに流水で15分以上洗浄','目への付着：流水で15分以上洗眼後、眼科受診','吸入：新鮮な空気へ','ドラフト内での作業を徹底','PIに報告。特化則管理記録に記載。廃棄は専門業者'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['有機物・可燃物との接触で発火（酸化剤）'],ext:'大量の水で希釈・冷却',evac:'六価クロムの粉塵・蒸気は有毒・発がん性。風上に退避',leak:'汚染範囲を表示。砂・吸着剤で回収。廃棄は還元処理後に産廃業者へ',steps:['風上に退避','可燃物を遠ざける','大量の水で希釈・冷却','六価クロムとして特化則・劇物の漏洩記録。PIに即時報告']}},
+
+{id:'agno3',name:'硝酸銀',cat:'inorganic',catL:'無機・金属',risk:'med',hazard:'toxic',search:'硝酸銀 silver nitrate AgNO3 7761-88-8',
+ law:'消防法：第1類（酸化性固体） ／ 毒劇法：劇物',
+ use:'ハロゲン化物イオンの検出（滴定分析）、写真・分析用',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激'],
+ alert:{t:'aamb',s:'劇物。皮膚・衣服を黒変（還元により銀が析出）。目への付着に注意。光に不安定。'},
+ ng:['可燃物・有機物との混触禁止（酸化剤）'],
+ delayed:null,
+ steps:['皮膚・目への付着：流水で15分以上洗浄','目への付着は眼科受診','遮光容器で保管。有機物との混触を避ける','PIに報告。劇物管理記録に記載'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['有機物・可燃物との接触で発火（酸化剤）'],ext:'大量の水で希釈・冷却',evac:'酸化性ガスに注意して退避',leak:'砂・吸着剤で回収。劇物として記録',steps:['可燃物を遠ざける','大量の水で対応','劇物漏洩として記録。PIに報告']}},
+
+{id:'bacl2',name:'塩化バリウム',cat:'inorganic',catL:'無機・金属',risk:'med',hazard:'toxic',search:'塩化バリウム barium chloride BaCl2 10361-37-2',
+ law:'消防法：非危険物 ／ 毒劇法：劇物',
+ use:'硫酸イオン（SO₄²⁻）の定性・定量分析',
+ sym:['吐き気・嘔吐','意識障害・痙攣'],
+ alert:{t:'aamb',s:'劇物。経口摂取・吸入で筋麻痺・不整脈・低カリウム血症。溶液の誤飲に注意。'},
+ ng:['嘔吐させない','硫酸塩溶液を飲ませない（素人判断禁止）'],
+ delayed:{time:'30分〜2時間後',note:'摂取後に低カリウム血症・不整脈・筋麻痺が遅れて出現する場合あり。摂取が疑われる場合は症状がなくても必ず受診。'},
+ steps:['経口摂取の疑いがある場合：直ちに119番','皮膚・目への付着：流水で15分以上洗浄','PIに即時報告。劇物管理記録に記載'],
+ contacts:[{l:'経口摂取時',v:'119番'},{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['引火性なし'],ext:'大量の水で希釈',evac:'粉塵吸入に注意して退避',leak:'湿式で回収（粉塵を立てない）。劇物として記録',steps:['退避','水で希釈・回収','劇物漏洩として記録。PIに報告']}},
+
+{id:'ac2o',name:'無水酢酸',cat:'inorganic',catL:'無機・金属',risk:'med',hazard:'fire',search:'無水酢酸 酢酸無水物 acetic anhydride Ac2O 108-24-7',
+ law:'消防法：第4類第2石油類 ／ 毒劇法：劇物 ／ 麻薬向精神薬原料',
+ use:'アセチル化反応（アスピリン合成等）',
+ sym:['皮膚灼熱感・熱傷','目の痛み・刺激','吸入・頭痛・めまい'],
+ alert:{t:'aamb',s:'麻薬向精神薬原料として使用記録・保管義務あり。蒸気・液体が目・皮膚・気道を刺激・腐食。水と反応して酢酸を生成。'},
+ ng:['嘔吐させない','中和処置をしない'],
+ delayed:null,
+ steps:['皮膚・目への接触：流水で15分以上洗浄','目への付着は眼科受診','吸入：新鮮な空気へ','麻薬向精神薬原料の使用記録に記載','PIに報告'],
+ contacts:[{l:'皮膚・吸入症状',v:'メディカルセンター救急外来'}],
+ fire:{ng:['水系消火剤は引火拡大のおそれ（引火点49℃）'],ext:'泡・粉末・CO₂消火器',evac:'刺激性蒸気に注意して退避',leak:'砂・吸着剤で回収。麻薬向精神薬原料として漏洩記録',steps:['退避・火気遮断','泡または粉末消火器で対応','麻薬向精神薬原料として漏洩記録。PIに報告']}},
+
+{id:'pd_c',name:'パラジウム炭素（Pd/C）',cat:'inorganic',catL:'無機・金属',risk:'med',hazard:'fire',search:'パラジウム炭素 Pd/C palladium on carbon 7440-05-3',
+ law:'消防法：乾燥品は注意 ／ 毒劇法：非該当',
+ use:'水素添加反応（還元反応）の触媒',
+ sym:['火災・発火'],
+ alert:{t:'aamb',s:'乾燥品は空気中で自然発火の危険。有機溶媒を吸収した廃棄物は発火リスク。水素ガスとの併用時は爆発リスクあり。'},
+ ng:['乾燥させたまま廃棄しない（発火）','水素ガス存在下で火花・加熱禁止'],
+ delayed:null,
+ steps:['発火した場合：直ちに退避、119番','湿潤状態で保管・取り扱う（開封後は溶媒に濡れた状態で）','廃棄時は有機溶媒を完全除去後、水に湿らせて専門業者へ','水素添加装置の近くでは特に慎重に扱う','PIに報告'],
+ contacts:[{l:'火災時',v:'119番'}],
+ fire:{ng:['乾燥品に水を一気にかけない（スパッタリング）','水素ガス存在下での火気禁止'],ext:'大量の水（湿潤化）または砂',evac:'水素ガスが存在する場合は爆発危険。直ちに退避',leak:'水で湿らせ密閉容器に回収',steps:['水素ガスがある場合は直ちに退避・119番','水素ガスがなければ水で湿らせ消火','密閉容器に回収し専門業者へ','PIに報告']}}
+];
+
+
+/* ===== 詳細情報データ ===== */
+const DETAIL = {
+  'methanol':{
+    antidote_detail:[
+      {k:'第一選択',v:'フォメピゾール（4-MP）10mg/kg iv 負荷、その後5mg/kg×4回、以降10mg/kg 12時間毎'},
+      {k:'代替',v:'エタノール 0.6g/kg 経口/点滴（血中濃度100mg/dL目標）'},
+      {k:'透析適応',v:'血中メタノール >50mg/dL、重篤アシドーシス（pH<7.1）、視覚症状'},
+      {k:'禁忌',v:'葉酸拮抗薬（ギ酸代謝阻害のため）'},
+    ],
+    blood_detail:[
+      {k:'メタノール濃度',v:'緊急測定。>20mg/dL で治療開始'},
+      {k:'動脈血ガス',v:'アニオンギャップ開大型アシドーシス確認'},
+      {k:'ギ酸',v:'直接神経毒・眼毒性の原因。高値ほど予後不良'},
+      {k:'眼底検査',v:'充血・視神経乳頭浮腫は緊急所見'},
+    ],
+    legal:'特になし',
+    links:[{l:'CHEMM メタノール',u:'https://chemm.hhs.gov/countermeasure/methanol-antidotes'},{l:'中毒情報センター（大阪）',u:'https://www.hitec-osaka.com/'},{l:'日本中毒情報センター',u:'https://www.j-poison-ic.jp/'}]
+  },
+  'nacn':{
+    antidote_detail:[
+      {k:'シアノキット®',v:'ヒドロキソコバラミン 5g iv（15分）。最優先'},
+      {k:'従来法①',v:'亜硝酸アミル 0.3mL 吸入（30秒毎）、次に亜硝酸ナトリウム 300mg iv'},
+      {k:'従来法②',v:'チオ硫酸ナトリウム 12.5g iv（上記に続けて投与）'},
+      {k:'酸素',v:'100%高流量酸素を全例に'},
+      {k:'禁忌',v:'CO中毒合併時にはシアノキットを優先（亜硝酸塩はMetHb形成で悪化）'},
+    ],
+    blood_detail:[
+      {k:'乳酸',v:'>10mmol/L は重篤。治療反応の指標にも使用'},
+      {k:'アニオンギャップ',v:'開大型アシドーシスの確認'},
+      {k:'COHb',v:'CO同時中毒の除外'},
+      {k:'血糖',v:'低血糖は予後悪化因子'},
+    ],
+    legal:'労働安全衛生法 特定化学物質（第1類）。事故は所轄労働基準監督署への報告義務あり',
+    links:[{l:'CHEMM シアン解毒',u:'https://chemm.hhs.gov/countermeasure/cyanide-antidotes'},{l:'日本中毒情報センター',u:'https://www.j-poison-ic.jp/'}]
+  },
+  'nan3':{
+    antidote_detail:[
+      {k:'特異的解毒薬',v:'なし'},
+      {k:'亜硝酸塩製剤',v:'シアンと同機序のため有効の報告あり。亜硝酸ナトリウム 300mg iv'},
+      {k:'循環管理',v:'ノルアドレナリン等昇圧薬。輸液負荷'},
+      {k:'酸素',v:'高流量100%投与'},
+    ],
+    blood_detail:[
+      {k:'乳酸',v:'高値は組織低酸素の指標'},
+      {k:'動脈血ガス',v:'アシドーシスの程度確認'},
+      {k:'肝・腎機能',v:'24時間後にフォロー'},
+    ],
+    legal:'特定化学物質（第1類）。事故報告義務あり',
+    links:[{l:'日本中毒情報センター',u:'https://www.j-poison-ic.jp/'}]
+  },
+  'uranyl_acetate':{
+    antidote_detail:[
+      {k:'重炭酸補充',v:'尿アルカリ化でウラン腎排泄促進（pH>6.5目標）'},
+      {k:'輸液',v:'大量輸液（腎保護）'},
+      {k:'キレート',v:'DTPA（ジエチレントリアミン五酢酸）は実験的。専門家相談'},
+    ],
+    blood_detail:[
+      {k:'尿中ウラン',v:'24時間蓄尿。基準値 <20μg/日'},
+      {k:'尿中β2ミクログロブリン',v:'尿細管障害の早期指標'},
+      {k:'Cr/BUN',v:'腎機能モニタリング'},
+    ],
+    legal:'放射線障害防止法：所属機関の放射線管理部門への即時報告義務。場合によっては原子力規制委員会への報告要',
+    links:[{l:'アイソトープセンター',u:'https://radiation.tsukuba.ac.jp/'},{l:'原子力規制庁',u:'https://www.nra.go.jp/'}]
+  },
+  'k2cr2o7':{
+    antidote_detail:[
+      {k:'アスコルビン酸',v:'Cr(VI)→Cr(III)還元。1g iv、その後経口'},
+      {k:'N-アセチルシステイン',v:'抗酸化保護。150mg/kg iv'},
+      {k:'輸液',v:'腎保護のための大量輸液'},
+    ],
+    blood_detail:[
+      {k:'尿中Cr',v:'曝露量の指標。Cr(VI)/Cr(III)比'},
+      {k:'GSH/酸化ストレス',v:'組織障害の程度'},
+      {k:'肝・腎機能',v:'AST/ALT/Cr/BUN。72時間フォロー'},
+    ],
+    legal:'特定化学物質（第2類）。大量漏洩は所轄労基署への報告要',
+    links:[{l:'CHEMM クロム',u:'https://chemm.hhs.gov/'},{l:'日本中毒情報センター',u:'https://www.j-poison-ic.jp/'}]
+  },
+  'dcm':{
+    antidote_detail:[
+      {k:'酸素',v:'100%高流量酸素が最重要（CO産生のため）'},
+      {k:'高圧酸素療法',v:'COHb>25%・心電図異常・神経症状で適応'},
+      {k:'特異的解毒薬',v:'なし'},
+    ],
+    blood_detail:[
+      {k:'COHb',v:'DCMはCO産生する。曝露後数時間で上昇継続'},
+      {k:'心電図',v:'ST変化・不整脈（CO心毒性）'},
+      {k:'動脈血ガス',v:'代謝性アシドーシスの確認'},
+    ],
+    legal:'特になし',
+    links:[{l:'CHEMM',u:'https://chemm.hhs.gov/'},{l:'日本中毒情報センター',u:'https://www.j-poison-ic.jp/'}]
+  },
+};
+
+/* ===== ヒヤリハット事例ナレッジ（筑波大学）===== */
+const HIYARI = [
+  {cat:'漏洩',title:'酸性廃液をシアン用廃液タンクに混入',chem:['酸','シアン化物'],keywords:['廃液','タンク','混入','シアン','酸性'],lesson:'廃液タンクのラベルを必ず確認。シアン用と酸性の廃液が混触すると猛毒ガス（シアン化水素）が発生する。'},
+  {cat:'漏洩',title:'エバポレーターでピリジンを濃縮したら異臭充満',chem:['ピリジン'],keywords:['エバポレーター','蒸発','濃縮','異臭','においがす'],lesson:'ピリジンは悪臭・神経毒性。密閉ドラフト内での作業と排気確認が必須。'},
+  {cat:'発火',title:'sec-BuLiの瓶の沈殿を無害化処理中に発火',chem:['ブチルリチウム','有機金属','金属リチウム'],keywords:['BuLi','リチウム','有機金属','無害化','発火','処理'],lesson:'有機金属化合物の無害化は専門家指導のもと少量ずつ行うこと。大量の溶媒を一度に添加しない。'},
+  {cat:'発火',title:'廃液タンクに棄てたカリウム金属から出火・火災',chem:['カリウム','金属カリウム'],keywords:['カリウム','廃液','出火','金属','発火'],lesson:'金属カリウムは水や有機廃液と激しく反応。専用容器に乾燥油中保存、廃液タンクへの投棄厳禁。'},
+  {cat:'怪我薬傷',title:'アセトンにて管内部洗浄中に突沸・ガラス管から噴出',chem:['アセトン'],keywords:['アセトン','突沸','噴出','ガラス管','洗浄'],lesson:'有機溶媒での洗浄は換気・冷却確認後。急加熱・密閉容器での加熱は突沸のリスクあり。'},
+  {cat:'怪我薬傷',title:'NaOH溶液の加熱フラスコが熱くて落としそうになりヒヤリ',chem:['水酸化ナトリウム','NaOH'],keywords:['NaOH','水酸化ナトリウム','熱い','フラスコ','落下'],lesson:'強アルカリ溶液の加熱は耐熱手袋・防護眼鏡着用必須。フラスコクランプの締め忘れに注意。'},
+  {cat:'機器器具',title:'電源ケーブルから火花が出て可燃物に引火',chem:[],keywords:['電源','ケーブル','火花','引火','電気'],lesson:'老朽化した電源ケーブルは定期交換。可燃物は電源周辺に置かない。タコ足配線禁止。'},
+  {cat:'機器器具',title:'地震でウォーターバスの水がコンセントに漏水・ヒヤリ',chem:[],keywords:['地震','ウォーターバス','水','コンセント','漏水'],lesson:'水を使う機器はコンセントより低い位置に設置しない。地震後は通電前に漏水確認。'},
+  {cat:'酸素欠乏',title:'液体窒素を意図的に室内に散布して酸欠死（死亡事故）',chem:['液体窒素','窒素'],keywords:['液体窒素','窒素','酸欠','酸素欠乏','充満'],lesson:'液体窒素は密閉空間で急速気化し酸素欠乏を起こす。絶対に室内に散布・放出してはいけない。'},
+  {cat:'酸素欠乏',title:'液体窒素充填作業中に酸欠死（死亡事故）',chem:['液体窒素','窒素'],keywords:['液体窒素','充填','酸欠','作業','窒素'],lesson:'液体窒素充填作業は換気確認・二人以上で実施。酸素濃度計の携帯必須。'},
+  {cat:'その他',title:'整理整頓不備による転倒・薬品落下ヒヤリ',chem:[],keywords:['整理','整頓','転倒','落下','通路'],lesson:'実験室の通路・棚周辺を常に整理整頓する。高所の試薬瓶は固定具を使用すること。'},
+  {cat:'その他',title:'X線構造解析装置での操作ミス',chem:[],keywords:['X線','放射線','装置','操作ミス','解析'],lesson:'放射線発生装置の操作は必ず資格者が行う。インターロックの解除手順を確認すること。'},
+];
+
+/* ===== 管理者ページ用データストア ===== */
+let adminData = {
+  crisData: [],      // CRISからのCSVデータ
+  patrolData: [],    // 巡視システムからのCSVデータ
+  customHiyari: [], // 手動追加ヒヤリハット
+  manualText: '',    // マニュアルテキスト
+  customChems: [],   // 管理者が追加した物質
+};
+
+// localStorageに永続化
+function saveAdminData() {
+  try { localStorage.setItem('adminData_v4', JSON.stringify(adminData)); } catch(e){}
+}
+function loadAdminData() {
+  try {
+    const d = localStorage.getItem('adminData_v4');
+    if (d) adminData = {...adminData, ...JSON.parse(d)};
+  } catch(e){}
+}
+loadAdminData();
+// 管理者追加物質をDに反映
+if (adminData.customChems && adminData.customChems.length > 0) {
+  adminData.customChems.forEach(c => { if (!D.find(d => d.id === c.id)) D.push(c); });
+}
+
+/* ===== モーダル表示 ===== */
+function openDetail(chemId, chemName) {
+  const d = DETAIL[chemId];
+  const cl = CL[chemId];
+  if (!d && !cl) return;
+
+  document.getElementById('modal-chem-name').textContent = chemName + ' 詳細情報';
+  document.getElementById('modal-chem-sub').textContent = '医療・管理者向け詳細参考情報';
+
+  let html = '';
+
+  // 解毒・治療詳細
+  if (d && d.antidote_detail) {
+    html += `<div class="modal-sect"><div class="modal-sect-title">💊 解毒薬・治療詳細</div>`;
+    html += `<div class="modal-warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>投与量・適応は必ず医師が判断してください。本情報は参考です。</span></div>`;
+    d.antidote_detail.forEach(r => {
+      html += `<div class="modal-row"><span class="modal-lbl">${r.k}</span><span class="modal-val">${r.v}</span></div>`;
+    });
+    html += '</div>';
+  }
+
+  // 血液検査詳細
+  if (d && d.blood_detail) {
+    html += `<div class="modal-sect"><div class="modal-sect-title">🩸 検査・モニタリング詳細</div>`;
+    d.blood_detail.forEach(r => {
+      html += `<div class="modal-row"><span class="modal-lbl">${r.k}</span><span class="modal-val">${r.v}</span></div>`;
+    });
+    html += '</div>';
+  }
+
+  // 法的報告義務
+  if (d && d.legal) {
+    html += `<div class="modal-sect"><div class="modal-sect-title">📋 法的報告義務</div>`;
+    html += `<div class="modal-row"><span class="modal-lbl">報告先</span><span class="modal-val">${d.legal}</span></div>`;
+    html += '</div>';
+  }
+
+  // 関連リンク
+  if (d && d.links) {
+    html += `<div class="modal-sect"><div class="modal-sect-title">🔗 参考リンク</div>`;
+    d.links.forEach(l => {
+      html += `<a class="modal-link" href="${l.u}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>${l.l}</a>`;
+    });
+    // 共通リンク
+    html += `<a class="modal-link" href="https://chemm.hhs.gov/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>CHEMM（米国化学物質緊急管理）</a>`;
+    html += `<a class="modal-link" href="https://www.j-poison-ic.jp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>日本中毒情報センター</a>`;
+    html += '</div>';
+  }
+
+  if (!html) html = '<p style="color:#B4B2A9;text-align:center;padding:20px">詳細データがありません</p>';
+
+  document.getElementById('modal-body-content').innerHTML = html;
+  document.getElementById('detail-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('detail-modal')) {
+    document.getElementById('detail-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+/* ===== 管理者ページ ===== */
+const ADMIN_PASS = '1234'; // 本番では変更すること
+
+function showAdminPage() {
+  const pass = prompt('管理者パスコードを入力してください');
+  if (pass !== ADMIN_PASS) { alert('パスコードが違います'); return; }
+  document.getElementById('admin-page').classList.remove('hidden');
+  document.getElementById('main-wrap').classList.add('hidden');
+  switchAdminTab(1);
+  renderAdminPage();
+}
+
+function hideAdminPage() {
+  document.getElementById('admin-page').classList.add('hidden');
+  document.getElementById('main-wrap').classList.remove('hidden');
+}
+
+function switchAdminTab(n) {
+  [1,2,3].forEach(i => {
+    const tab = document.getElementById('adm-tab-'+i);
+    const btn = document.getElementById('adm-tab-btn-'+i);
+    if (tab) tab.classList.toggle('hidden', i !== n);
+    if (btn) {
+      btn.style.borderBottomColor = i === n ? '#185FA5' : 'transparent';
+      btn.style.color = i === n ? '#185FA5' : '#B4B2A9';
+      btn.style.fontWeight = i === n ? '700' : '600';
+    }
+  });
+}
+
+function renderAdminPage() {
+  const customCount = adminData.customChems ? adminData.customChems.length : 0;
+  const el = document.getElementById('adm-custom-count');
+  if (el) el.textContent = customCount;
+  const el2 = document.getElementById('adm-custom-list-count');
+  if (el2) el2.textContent = customCount + '件';
+  renderCustomChemList();
+}
+
+function renderCustomChemList() {
+  const list = document.getElementById('adm-custom-list');
+  if (!list) return;
+  const chems = adminData.customChems || [];
+  if (chems.length === 0) {
+    list.innerHTML = '<span style="color:#B4B2A9;font-size:12px">追加した物質がここに表示されます</span>';
+    return;
+  }
+  list.innerHTML = chems.map((c,i) => `
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #F5F4F0">
+      <span style="font-size:12px;flex:1"><strong>${c.name}</strong> <span style="color:#5F5E5A;font-size:11px">${c.catL||''} / ${['高','中','低'][['high','med','low'].indexOf(c.risk)]||''}リスク</span></span>
+      <button onclick="deleteCustomChem(${i})" style="background:none;border:none;color:#B4B2A9;cursor:pointer;font-size:16px;padding:2px 6px;border-radius:4px" title="削除">×</button>
+    </div>
+  `).join('');
+}
+
+
+/* ===== CSV一括インポート ===== */
+function downloadCSVTemplate() {
+  const header = 'name,cat,risk,hazard,law,search,use,steps,sds';
+  const example1 = 'ベンゼン,solvent,high,both,消防法：第4類第1石油類／毒劇法：劇物,ベンゼン benzene C6H6 71-43-2,反応溶媒／洗浄溶媒,皮膚接触：流水で15分洗浄|吸入：新鮮な空気へ,芳香族炭化水素。発がん性あり';
+  const example2 = 'ジエチルアミン,solvent,med,both,消防法：第4類第1石油類／毒劇法：劇物,ジエチルアミン diethylamine DEA 109-89-7,pH調整（アルカリ）,吸入：新鮮な空気へ|皮膚：流水洗浄,強い魚臭。目・皮膚・粘膜への刺激強い';
+  const csv = [header, example1, example2].join('\n');
+  const blob = new Blob(['﻿' + csv], {type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'chemical_template.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+const CAT_LABELS = {solvent:'有機溶媒', acid:'酸塩基', inorganic:'無機・金属', other:'その他'};
+const RISK_LABELS = {high:'高', med:'中', low:'低'};
+
+function importChemCSV(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const resultEl = document.getElementById('csv-import-result');
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const text = e.target.result.replace(/^﻿/, ''); // BOM除去
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length < 2) { showCSVResult('error', 'データ行がありません'); return; }
+
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+      const required = ['name','cat','risk','hazard','law'];
+      const missing = required.filter(r => !headers.includes(r));
+      if (missing.length > 0) {
+        showCSVResult('error', '必須列が不足しています: ' + missing.join(', '));
+        return;
+      }
+
+      let added = 0, skipped = 0, errors = [];
+      if (!adminData.customChems) adminData.customChems = [];
+
+      lines.slice(1).forEach((line, lineIdx) => {
+        if (!line.trim()) return;
+        // CSVパース（カンマ区切り、ダブルクォート対応）
+        const vals = parseCSVLine(line);
+        const row = {};
+        headers.forEach((h, i) => row[h] = (vals[i] || '').trim());
+
+        if (!row.name) { skipped++; return; }
+
+        // 重複チェック
+        const exists = D.find(c => c.name === row.name) || adminData.customChems.find(c => c.name === row.name);
+        if (exists) { skipped++; errors.push(row.name + '（重複）'); return; }
+
+        // steps: パイプ区切りで配列化
+        const steps = row.steps ? row.steps.split('|').map(s => s.trim()).filter(Boolean) : [];
+
+        const newChem = {
+          id: 'custom_' + Date.now() + '_' + lineIdx,
+          name: row.name,
+          cat: row.cat || 'other',
+          catL: CAT_LABELS[row.cat] || row.cat || 'その他',
+          risk: row.risk || 'med',
+          hazard: row.hazard || '',
+          law: row.law || '確認中',
+          use: row.use || '',
+          search: row.search || row.name,
+          sym: [],
+          alert: '',
+          ng: [],
+          delayed: null,
+          steps: steps,
+          contacts: [],
+          sdsNote: row.sds || '',
+          _custom: true,
+        };
+
+        adminData.customChems.push(newChem);
+        D.push(newChem);
+        added++;
+      });
+
+      saveAdminData();
+      renderAdminPage();
+      doFilter();
+
+      let msg = added + '件を追加しました。';
+      if (skipped > 0) msg += ' ' + skipped + '件スキップ（' + errors.slice(0,3).join('、') + (errors.length > 3 ? '他' : '') + '）';
+      showCSVResult(added > 0 ? 'success' : 'warn', msg);
+    } catch(err) {
+      showCSVResult('error', 'CSVの読み込みに失敗しました: ' + err.message);
+    }
+    input.value = ''; // リセット
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current); current = '';
+    } else {
+      current += ch;
+    }
+  }
+  result.push(current);
+  return result;
+}
+
+function showCSVResult(type, msg) {
+  const el = document.getElementById('csv-import-result');
+  if (!el) return;
+  const colors = {
+    success: {bg:'#F0FDF4', border:'#86EFAC', color:'#15803D'},
+    error:   {bg:'#FEF2F2', border:'#FCA5A5', color:'#B91C1C'},
+    warn:    {bg:'#FFF3CD', border:'#FDE68A', color:'#854F0B'},
+  };
+  const c = colors[type] || colors.warn;
+  el.style.display = 'block';
+  el.style.background = c.bg;
+  el.style.border = '1px solid ' + c.border;
+  el.style.color = c.color;
+  el.textContent = msg;
+}
+
+function addCustomChem() {
+  const name = document.getElementById('adm-new-name').value.trim();
+  const cat = document.getElementById('adm-new-cat').value;
+  const risk = document.getElementById('adm-new-risk').value;
+  const hazard = document.getElementById('adm-new-hazard').value;
+  const law = document.getElementById('adm-new-law').value.trim();
+  if (!name) { alert('物質名は必須です'); return; }
+
+  const catLabels = {solvent:'有機溶媒', acid:'酸塩基', inorganic:'無機・金属', other:'その他'};
+
+  // 用途チェックボックス収集
+  const checked = [...document.querySelectorAll('#adm-use-checks input:checked')].map(el => el.value);
+  const customUse = document.getElementById('adm-use-custom').value.trim();
+  const useArr = [...checked, ...(customUse ? [customUse] : [])];
+
+  // 手順収集
+  const stepsRaw = document.getElementById('adm-new-steps').value.trim();
+  const steps = stepsRaw ? stepsRaw.split('\n').filter(s => s.trim()) : [];
+  const search = document.getElementById('adm-new-search').value.trim();
+  const sds = document.getElementById('adm-new-sds').value.trim();
+
+  const newChem = {
+    id: 'custom_' + Date.now(),
+    name, cat, catL: catLabels[cat] || cat, risk, hazard,
+    law: law || '確認中', use: useArr.join('、'), search,
+    sym: [], alert: '', ng: [], delayed: null,
+    steps, contacts: [], sdsNote: sds,
+    _custom: true,
+  };
+
+  if (!adminData.customChems) adminData.customChems = [];
+  adminData.customChems.push(newChem);
+  D.push(newChem); // ライブデータに追加
+  saveAdminData();
+  renderAdminPage();
+  doFilter();
+
+  // フォームリセット
+  ['adm-new-name','adm-new-law','adm-new-search','adm-new-steps','adm-new-sds','adm-use-custom'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  document.querySelectorAll('#adm-use-checks input').forEach(el => el.checked = false);
+
+  alert(`「${name}」を追加しました。物質一覧に表示されます。`);
+}
+
+function deleteCustomChem(idx) {
+  if (!confirm('この物質を削除しますか？')) return;
+  const deleted = adminData.customChems.splice(idx, 1)[0];
+  const di = D.findIndex(c => c._custom && c.name === deleted.name);
+  if (di >= 0) D.splice(di, 1);
+  saveAdminData();
+  renderAdminPage();
+  doFilter();
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,''));
+  return lines.slice(1).map(line => {
+    const vals = line.split(',').map(v => v.trim().replace(/^"|"$/g,''));
+    const obj = {};
+    headers.forEach((h,i) => obj[h] = vals[i] || '');
+    return obj;
+  });
+}
+
+function importCRIS(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      adminData.crisData = parseCSV(e.target.result);
+      saveAdminData();
+      renderAdminPage();
+      alert(`CRISデータを ${adminData.crisData.length} 件インポートしました`);
+    } catch(err) { alert('CSVの読み込みに失敗しました: ' + err.message); }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function importPatrol(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      adminData.patrolData = parseCSV(e.target.result);
+      saveAdminData();
+      renderAdminPage();
+      alert(`巡視データを ${adminData.patrolData.length} 件インポートしました`);
+    } catch(err) { alert('CSVの読み込みに失敗しました: ' + err.message); }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function saveManual() {
+  adminData.manualText = document.getElementById('adm-manual').value;
+  saveAdminData();
+  alert('マニュアル・ヒヤリハット情報を保存しました');
+}
+
+function addCustomHiyari() {
+  const title = document.getElementById('adm-hiyari-title').value.trim();
+  const body = document.getElementById('adm-hiyari-body').value.trim();
+  const chem = document.getElementById('adm-hiyari-chem').value.trim();
+  if (!title || !body) { alert('タイトルと内容を入力してください'); return; }
+  adminData.customHiyari.push({title, body, chem, date: new Date().toLocaleDateString('ja-JP')});
+  saveAdminData();
+  document.getElementById('adm-hiyari-title').value = '';
+  document.getElementById('adm-hiyari-body').value = '';
+  document.getElementById('adm-hiyari-chem').value = '';
+  renderAdminPage();
+  alert('ヒヤリハット事例を追加しました');
+}
+
+/* ===== 強化モックAI（場所情報＋ヒヤリハット連携）===== */
+async function runAI() {
+  const input = document.getElementById('ai-input').value.trim();
+  const location = (document.getElementById('ai-location')||{value:''}).value.trim();
+  if (!input) return;
+  const btn = document.getElementById('ai-submit-btn');
+  const resultArea = document.getElementById('ai-result-area');
+  btn.disabled = true;
+  resultArea.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div>AIが状況を分析中...</div>';
+
+  await new Promise(r => setTimeout(r, 1400 + Math.random() * 800));
+
+  // 関連ヒヤリハット検索
+  const allHiyari = [...HIYARI, ...adminData.customHiyari];
+  const matchedHiyari = allHiyari.filter(h => {
+    const keywords = h.keywords || [];
+    const combined = input + ' ' + location;
+    return keywords.some(k => combined.includes(k)) ||
+           (h.chem || []).some(c => combined.includes(c));
+  }).slice(0,2);
+
+  // 巡視データから場所情報を検索
+  let patrolContext = '';
+  if (location && adminData.patrolData.length > 0) {
+    const loc = location.toLowerCase();
+    const matched = adminData.patrolData.filter(r => {
+      const roomStr = JSON.stringify(r).toLowerCase();
+      return loc.split(/[・\s]/).some(w => w && roomStr.includes(w));
+    });
+    if (matched.length > 0) {
+      const ngs = matched.filter(r => Object.values(r).some(v => v === 'ng' || v === 'NG'));
+      if (ngs.length > 0) {
+        patrolContext = `\n\n📋 **巡視記録より（${location}）**\n過去の巡視で ${ngs.length} 件の指摘事項が記録されています。化学物質管理・整理整頓に関する指摘が含まれる可能性があります。`;
+      }
+    }
+  }
+
+  // CRISデータから場所の物質を検索
+  let crisContext = '';
+  if (location && adminData.crisData.length > 0) {
+    const loc = location.toLowerCase();
+    const matched = adminData.crisData.filter(r => {
+      const roomStr = JSON.stringify(r).toLowerCase();
+      return loc.split(/[・\s]/).some(w => w && roomStr.includes(w));
+    }).slice(0, 5);
+    if (matched.length > 0) {
+      const chemNames = [...new Set(matched.map(r => r['物質名'] || r['薬品名'] || r['name'] || '').filter(Boolean))];
+      if (chemNames.length > 0) {
+        crisContext = `\n\n🧪 **CRIS登録物質（${location}）**\nこの場所には ${chemNames.slice(0,5).join('、')} が登録されています。`;
+      }
+    }
+  }
+
+  const text = mockInfer(input, location) + patrolContext + crisContext;
+
+  // ヒヤリハット追記
+  let hiyariHTML = '';
+  if (matchedHiyari.length > 0) {
+    hiyariHTML = `<div style="margin-top:10px;padding:10px;background:#FFFBEB;border-radius:8px;border:1px solid #FDE68A">
+      <div style="font-size:11px;font-weight:700;color:#92400E;margin-bottom:6px">📚 関連するヒヤリハット事例（筑波大学）</div>
+      ${matchedHiyari.map(h => `<div style="font-size:11px;color:#78350F;margin-bottom:5px;padding-bottom:5px;border-bottom:1px solid #FDE68A">
+        <strong>【${h.cat||''}】${h.title}</strong><br>
+        ${h.lesson||h.body||''}
+      </div>`).join('')}
+    </div>`;
+  }
+
+  resultArea.innerHTML = `<div class="ai-result">
+    <div class="ai-result-hdr">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>AI推定結果${location ? '（'+location+'）' : ''}</span>
+    </div>
+    <div class="ai-result-body">${escapeHtml(text)}</div>
+    ${hiyariHTML}
+    <div class="ai-result-warn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>この情報はAIによる参考候補であり、確定診断ではありません。必ず医療者・専門家の判断を優先してください。</span>
+    </div>
+    <div class="ai-result-warn" style="background:#FEF9C3;border-color:#FDE68A;color:#713F12">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#CA8A04"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <span>【デモモード】現在はモックAIで動作しています。本番では実際のAIが推定します。</span>
+    </div>
+  </div>`;
+  btn.disabled = false;
+}
+
+/* ===== 医療・管理者向けデータ ===== */
+const CL = {
+  'methanol':{obs:'初回受診後 最低24時間観察推奨',blood:'血中メタノール濃度・血中ギ酸・動脈血ガス（代謝性アシドーシス確認）・眼底検査',antidote:'エタノール（経口/点滴）またはフォメピゾール（4-MP）。重篤時は透析適応あり（救急医に伝える）'},
+  'diethyl_ether':{obs:'4〜6時間観察（呼吸抑制・意識回復確認）',blood:'血中酸素飽和度モニタリング・血液ガス',antidote:'特異的解毒薬なし。気道確保・酸素投与・呼吸管理'},
+  'chloroform':{obs:'24時間観察（肝・腎障害出現に備える）',blood:'肝機能（AST/ALT/T-Bil）・腎機能（Cr/BUN）・血算・尿検査',antidote:'特異的解毒薬なし。肝保護・対症療法。アセチルシステイン投与（救急医判断）'},
+  'hcl':{obs:'症状に応じ2〜6時間観察。高濃度吸入では24時間',blood:'胸部X線・動脈血ガス（肺水腫スクリーニング）',antidote:'解毒薬なし。吸入：気管支拡張薬・ステロイド吸入。経口：内視鏡評価'},
+  'h2so4':{obs:'皮膚/目接触：受診後48時間まで再確認推奨',blood:'皮膚熱傷面積評価・眼科スリットランプ検査',antidote:'解毒薬なし。熱傷処置（冷却・デブリードマン）。眼：0.5%プロパラカイン点眼後洗浄'},
+  'hno3':{obs:'高濃度吸入は24時間（遅発性肺水腫）',blood:'胸部X線・SpO2・血液ガス・メトヘモグロビン濃度（MetHb）',antidote:'MetHb高値（>25%）：メチレンブルー 1〜2mg/kg iv'},
+  'naoh':{obs:'経口摂取は入院（内視鏡・X線フォロー）',blood:'内視鏡（摂取後12〜24時間以内推奨）・胸部X線（穿孔評価）',antidote:'中和剤投与禁忌。大量の水/牛乳で希釈後、消化器科へ'},
+  'koh':{obs:'NaOHに準じる',blood:'内視鏡・電解質（低K血症チェック）',antidote:'中和剤禁忌。希釈後、消化器科へ'},
+  'uranyl_acetate':{obs:'72時間入院観察（腎毒性・放射線被曝評価）',blood:'尿中ウラン濃度（24時間蓄尿）・血清Cr/BUN・UA・CBC。環境安全管理室に放射線管理報告',antidote:'特異的解毒薬なし。腎保護（輸液）・重炭酸補充でアルカリ尿化（ウラン腎排泄促進）。アイソトープセンターへ同時報告'},
+  'nacn':{obs:'無症状でも最低6時間観察',blood:'乳酸値（>10mmol/Lは重篤）・動脈血ガス（アニオンギャップ開大確認）・COHb・血糖',antidote:'シアン解毒キット：①亜硝酸アミル吸入→②亜硝酸ナトリウム10mg/kg iv→③チオ硫酸ナトリウム250mg/kg iv。または ヒドロキソコバラミン（シアノキット®）5g iv'},
+  'nan3':{obs:'6〜24時間観察（遅発性低血圧に備える）',blood:'乳酸値・血液ガス・肝機能・腎機能',antidote:'特異的解毒薬なし。循環管理（昇圧薬）。亜硝酸塩製剤が有効との報告あり（救急医判断）'},
+  'na_metal':{obs:'熱傷の重症度に応じて入院判断',blood:'熱傷面積（BSA%）・電解質・血算',antidote:'解毒薬なし。乾燥砂で被覆（水・CO₂厳禁）。熱傷部は乾燥保護'},
+  'nah':{obs:'熱傷の重症度に応じて入院判断。最低6時間観察',blood:'熱傷面積（BSA%）・電解質・SpO2',antidote:'解毒薬なし。熱傷処置（乾燥砂で被覆・絶対に水をかけない）。気道症状あれば酸素投与'},
+  'k2cr2o7':{obs:'72時間観察（腎・肝毒性）。皮膚感作は長期フォロー',blood:'尿中Cr濃度・Cr(VI)/Cr(III)・肝機能・腎機能・CBC・GSH（酸化ストレス指標）',antidote:'特異的解毒薬なし。大量輸液・アスコルビン酸投与（救急医判断）'},
+  'acetone':{obs:'2〜4時間（軽症吸入）',blood:'血中アセトン・血糖（DKAとの鑑別）',antidote:'特異的解毒薬なし。新鮮空気・対症療法'},
+  'ethanol':{obs:'症状消失まで観察（低血糖に注意）',blood:'血中アルコール濃度・血糖・電解質',antidote:'低血糖：グルコース補充。重症：チアミン補充（ウェルニッケ予防）'},
+  'thf':{obs:'4〜6時間（肝障害スクリーニング）',blood:'肝機能（AST/ALT）・血中THF濃度（測定可能なら）',antidote:'特異的解毒薬なし。対症療法'},
+  'dcm':{obs:'24時間（COHb値の推移確認）',blood:'COHb（代謝によりCO産生）・血液ガス・心電図',antidote:'高流量酸素（100%）。COHb高値・心電図異常：高圧酸素療法の適応あり（救急医に伝える）'},
+  'hexane':{obs:'6〜12時間（急性期後に神経症状出現の場合あり）',blood:'血中n-ヘキサン・2,5-ヘキサンジオン（神経毒性代謝物）',antidote:'特異的解毒薬なし。神経症状持続：神経内科紹介'},
+  'toluene':{obs:'4〜6時間（心不整脈監視）',blood:'血中トルエン・心電図モニター・電解質',antidote:'特異的解毒薬なし。心不整脈：β遮断薬避ける（VF誘発リスク）'},
+  'acetic_acid':{obs:'受診後2〜4時間（経口：内視鏡適応評価）',blood:'内視鏡所見・血液ガス',antidote:'中和剤禁忌（発熱・組織損傷増悪）。希釈・対症療法'},
+  'ammonia':{obs:'吸入高濃度：24時間（肺水腫遅発に備える）',blood:'動脈血ガス・胸部X線・SpO2',antidote:'解毒薬なし。吸入：気管支拡張薬・ステロイド・酸素。経口：内視鏡評価'},
+  'phosphoric_acid':{obs:'2〜4時間（軽症）。高濃度経口：入院',blood:'電解質（リン・Ca）・腎機能',antidote:'低Ca血症：カルシウム補充'},
+  'barium_chloride':{obs:'入院・24時間心電図モニター（低K血症・不整脈）',blood:'血清K・心電図・血清Ba・腎機能',antidote:'低K血症補正（KCl 点滴）。硫酸ナトリウム（Ba²⁺沈殿）は確実な投与が難しい場合あり。早期血液透析の適応あり（救急医に伝える）'},
+  'formalin':{obs:'高濃度吸入：24時間。経口：入院（内視鏡必須）',blood:'肝機能・腎機能・血液ガス・内視鏡',antidote:'特異的解毒薬なし（）。経口：内視鏡・対症療法'},
+  'h2o2':{obs:'高濃度（>10%）：6〜12時間（ガス塞栓リスク）',blood:'胸部X線・頭部CT（ガス塞栓疑い時）',antidote:'高濃度経口：内視鏡（ガス塞栓スクリーニング）。高圧酸素療法の適応あり（救急医に伝える）'},
+  'kf':{obs:'入院必須・24時間心電図モニター（低Ca・低Mg・不整脈）',blood:'血清Ca・Mg・K・心電図・腎機能',antidote:'カルシウム（グルコン酸Ca 1g iv 繰り返し）+ マグネシウム補充。重篤低Ca：ICU管理'},
+  'baso4':{obs:'通常観察不要（X線造影剤として使用）',blood:'誤嚥時：胸部X線・SpO2',antidote:'特異的解毒薬なし。誤嚥：気道管理'},
+  'baf2':{obs:'フッ化物として管理（KFに準じる）。入院',blood:'血清Ca・Mg・K・心電図',antidote:'KFに準じる。カルシウム補充'},
+  'ac2o':{obs:'2〜4時間（粘膜刺激症状消失確認）',blood:'麻薬向精神薬原料として使用記録確認',antidote:'特異的解毒薬なし。酢酸への加水分解による刺激症状：対症療法'},
+  'pd_c':{obs:'発火・燃焼した場合：呼吸器症状フォロー24時間',blood:'胸部X線（粉塵吸入量による）',antidote:'解毒薬なし。粉塵吸入：気道管理・対症療法'}
+};
+
+let currentTab='all', openId=null;
+let clinicianMode = false;
+
+function toggleClinician(on) {
+  clinicianMode = on;
+  document.querySelectorAll('.cl-block').forEach(el => {
+    el.classList.toggle('active', on);
+  });
+  // Re-render open card if any
+  if (openId) {
+    const body = document.getElementById('body-' + openId);
+    if (body) {
+      const clBlock = body.querySelector('.cl-block');
+      if (clBlock) clBlock.classList.toggle('active', on);
+    }
+  }
+}
+
+async function runAI() {
+  const input = document.getElementById('ai-input').value.trim();
+  if (!input) return;
+  const btn = document.getElementById('ai-submit-btn');
+  const resultArea = document.getElementById('ai-result-area');
+  btn.disabled = true;
+  resultArea.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div>AIが状況を分析中...</div>';
+
+  // ── モックAI：キーワードで分岐するデモ用疑似推定 ──
+  // 本番実装時はこの関数をAPIコールに差し替えます
+  const text = mockInfer(input);
+
+  // 描画を少し遅らせてAI処理感を演出
+  await new Promise(r => setTimeout(r, 1400 + Math.random() * 800));
+
+  resultArea.innerHTML = `<div class="ai-result">
+    <div class="ai-result-hdr">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span>AI推定結果</span>
+    </div>
+    <div class="ai-result-body">${escapeHtml(text)}</div>
+    <div class="ai-result-warn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>この情報はAIによる参考候補であり、確定診断ではありません。必ず医療者・専門家の判断を優先してください。重篤な症状がある場合は迷わず119番に連絡してください。</span>
+    </div>
+    <div class="ai-result-warn" style="background:#FEF9C3;border-color:#FDE68A;color:#713F12">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#CA8A04"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <span>【デモモード】現在はモックAIで動作しています。本番では実際のAIが推定します。</span>
+    </div>
+  </div>`;
+  btn.disabled = false;
+}
+
+function mockInfer(input) {
+  const t = input;
+
+  // ── キーワードマッチング ──
+  const has = (...words) => words.some(w => t.includes(w));
+
+  // シアン・アジ化物（最優先）
+  if (has('シアン','青酸','CN','アジ化','アジド','苦扁桃')) {
+    return `【推定候補物質】
+1. シアン化ナトリウム（NaCN）― シアン系特有の苦扁桃臭・急激な意識消失と合致
+2. アジ化ナトリウム（NaN₃）― 同様に少量で重篤化、遅発性低血圧に注意
+3. シアン化カリウム（KCN）― 使用状況次第で可能性あり
+
+【すぐやること】
+1. 直ちに119番通報（シアン系疑いを明示して伝える）
+2. 救助者も絶対に素手・無防備で近づかない――必ず送気マスクを着用
+3. 患者を汚染区域から風上へ移動、衣服除去
+4. 意識あり・呼吸あり：横向きに寝かせ新鮮空気確保
+5. 解毒薬（シアノキット®）は救急隊・医療機関到着まで待機
+
+【医療機関受診の判断】
+症状の有無にかかわらず全員受診必須です。シアン系は無症状でも急変するため、救急外来で乳酸値・血液ガスを確認してください。`;
+  }
+
+  // メタノール
+  if (has('メタノール','メチルアルコール','木精','methanol','MeOH')) {
+    return `【推定候補物質】
+1. メタノール（MeOH）― 入力状況と使用物質が直接一致
+2. エタノール（混合使用の場合）― 同時曝露の可能性を除外確認
+3. ホルムアルデヒド（メタノール酸化体）― 眼症状が強い場合は追加考慮
+
+【すぐやること】
+1. 直ちに新鮮空気の場所へ移動・換気
+2. 皮膚・目への付着は流水で15分以上洗浄
+3. 経口摂取の疑いは絶対に嘔吐させない
+4. 眼症状（霞む・視力低下）が少しでもあれば即受診
+5. 無症状でも摂取・大量吸入の場合は受診推奨（潜伏期間あり）
+
+【医療機関受診の判断】
+視覚症状・頭痛・吐き気がある場合は直ちにメディカルセンター救急外来へ。無症状でも経口摂取の疑いがあれば6時間以内に受診してください。`;
+  }
+
+  // 硫酸・塩酸・硝酸（強酸）
+  if (has('塩酸','硫酸','硝酸','HCl','H₂SO₄','HNO₃','強酸','酸が')) {
+    const eye = has('目','眼','視');
+    const breath = has('咳','呼吸','息','吸入','煙','ガス');
+    return `【推定候補物質】
+1. ${t.includes('塩酸')||t.includes('HCl') ? '塩酸（HCl）' : t.includes('硫酸') ? '硫酸（H₂SO₄）' : '硝酸（HNO₃）'}― 入力の記述と合致
+2. 混合酸（王水など）― 複数酸の同時使用があれば確認
+3. 塩化水素ガス― 揮発・吸入成分として併発の可能性
+
+【すぐやること】
+${eye ? '1. 直ちに流水で目を15分以上洗浄（コンタクトは外す）\n2. 洗浄後すぐに附属病院眼科へ（時間外は救急外来経由）\n3. 皮膚への付着も同時に流水洗浄\n4. 汚染衣服を除去\n5. 眼科受診まで目をこすらない' : breath ? '1. 直ちに建物外・新鮮空気へ\n2. 咳・息苦しさが続く場合は横にならず座位を保つ\n3. 皮膚付着部は流水で15分以上洗浄\n4. 汚染衣服を除去\n5. 呼吸症状が改善しなければ119番' : '1. 付着部を直ちに流水で15分以上洗浄\n2. 汚染衣服を脱がせる\n3. 目への付着がないか確認\n4. 痛み・発赤が残る場合は受診\n5. 大量付着・口内・呼吸器症状は119番'}
+
+【医療機関受診の判断】
+${eye ? '目への付着は洗浄後すぐに眼科受診が必須です。数時間後に症状が悪化することがあります。' : '皮膚の発赤・疼痛が15分洗浄後も続く場合、または吸入症状がある場合はメディカルセンター救急外来へ。'}`;
+  }
+
+  // NaOH・KOH（強アルカリ）
+  if (has('水酸化ナトリウム','水酸化カリウム','NaOH','KOH','苛性ソーダ','アルカリ','苛性')) {
+    return `【推定候補物質】
+1. 水酸化ナトリウム（NaOH）― 強アルカリ、特に目への障害が深刻
+2. 水酸化カリウム（KOH）― 同等の腐食性、同様の対応が必要
+3. アンモニア水（高濃度）― 揮発臭がある場合は追加考慮
+
+【すぐやること】
+1. 目への付着：流水で最低15〜20分洗浄（強アルカリは特に念入りに）
+2. 皮膚：流水15分以上、石けん使用可
+3. コンタクトレンズは洗浄しながら取り外す
+4. 汚染衣服を脱がせる（素手で触れないよう注意）
+5. 目に付着した場合は洗浄後すぐに附属病院眼科へ
+
+【医療機関受診の判断】
+目への付着は無症状でも必ず眼科受診。アルカリは「除痛後も障害が進行」するため過信禁物です。皮膚熱傷が広範囲の場合も受診してください。`;
+  }
+
+  // 有機溶媒全般（においの描写あり）
+  if (has('甘い','シンナー','揮発','溶媒','有機','においがす','臭い','めまい','頭痛','気分不良','吐き気') && !has('シアン','酸','アルカリ')) {
+    const chem = has('エーテル','ether') ? 'ジエチルエーテル' :
+                 has('クロロホルム','CHCl') ? 'クロロホルム' :
+                 has('トルエン','toluene') ? 'トルエン' :
+                 has('ヘキサン','hexane') ? 'n-ヘキサン' :
+                 has('アセトン','acetone') ? 'アセトン' :
+                 has('DCM','ジクロロ','塩化メチレン') ? 'ジクロロメタン（DCM）' :
+                 has('THF','テトラヒドロフラン') ? 'THF' : 'アセトン・有機溶媒';
+    return `【推定候補物質】
+1. ${chem}― 揮発性有機溶媒による吸入曝露と症状が合致
+2. 混合溶媒（複数使用の場合）― 実験内容を確認
+3. ジクロロメタン（DCM）― 使用していた場合は特にCO産生に注意
+
+【すぐやること】
+1. 直ちに実験室外・新鮮空気へ退避、窓・ドアを開け換気
+2. 症状がある人は座らせ、安静を保つ
+3. 意識がはっきりしない・立てない場合は横向きに寝かせ119番
+4. 皮膚・衣服に付着していれば流水洗浄・着替え
+5. 使用していた物質名をメモしておく（受診時に必要）
+
+【医療機関受診の判断】
+新鮮空気で15〜20分経過しても頭痛・吐き気・ふらつきが続く場合はメディカルセンター救急外来へ。意識が戻らない・呼吸が浅い場合は即119番。`;
+  }
+
+  // 火災・発火
+  if (has('火','発火','燃え','爆発','炎','煙','燃焼')) {
+    return `【推定候補物質】
+1. ジエチルエーテル・THF等（引火性溶媒）― 揮発蒸気への着火が最多
+2. ナトリウム（金属）・水素化ナトリウム― 水との接触による激しい反応
+3. パラジウム炭素（Pd/C）― 乾燥状態での自然発火
+
+【すぐやること】
+1. 直ちに119番通報（化学物質火災である旨を伝える）
+2. 在室者全員を建物外へ退避
+3. 初期消火は「消火器が手の届く範囲・炎が小さい」場合のみ、無理なら逃げる
+4. 金属火災（Na・NaH）には水・CO₂消火器を絶対使用しない（爆発的反応）
+5. 避難後、負傷者の確認と救急対応
+
+【医療機関受診の判断】
+煙・ガスを吸入した可能性がある全員が受診対象。症状がなくても吸入量が多い場合は24時間以内に呼吸器症状が出ることがあります。`;
+  }
+
+  // 皮膚熱傷・やけど
+  if (has('熱傷','やけど','ヤケド','ただれ','水ぶくれ','発赤','赤くなった')) {
+    return `【推定候補物質】
+1. 強酸類（塩酸・硫酸・硝酸）― 化学熱傷の頻度が最も高い
+2. 強アルカリ類（NaOH・KOH）― 深部まで侵食する進行性熱傷
+3. 金属ナトリウム・水素化ナトリウム― 水接触による急激な発熱反応
+
+【すぐやること】
+1. 流水で15〜20分以上冷却洗浄（水を止めない）
+2. 汚染衣服・アクセサリーを除去（素手で触れる部分は注意）
+3. 冷やしながらメディカルセンター救急外来へ向かう
+4. 水疱（水ぶくれ）は絶対に破らない
+5. 熱傷面積が広い・顔面・関節部の場合は119番
+
+【医療機関受診の判断】
+化学熱傷は見た目より深い場合が多いため、軽症に見えても必ず受診してください。特にアルカリ熱傷は時間経過で悪化します。`;
+  }
+
+  // 目の症状
+  if (has('目','眼','視力','見えない','充血','痛い','しみる') && !has('シアン')) {
+    return `【推定候補物質】
+1. 強酸・強アルカリ（スプラッシュ）― 目への液体飛散が最も危険
+2. 有機溶媒蒸気― 慢性的な眼刺激・充血
+3. ホルマリン・アンモニア― 揮発成分による眼粘膜刺激
+
+【すぐやること】
+1. 直ちに流水で目を洗浄（15〜20分。コンタクトは外しながら洗浄）
+2. まぶたを開いたまま、眼球全体に水が当たるよう洗う
+3. 洗浄中に視力低下・激しい痛みがある場合は119番
+4. 洗浄後すぐに附属病院眼科へ（時間外は救急外来経由で）
+5. 目をこすらない
+
+【医療機関受診の判断】
+眼への化学物質付着は「洗浄後に痛みがなくても」受診が原則です。特に強酸・強アルカリは数時間後に症状が悪化することがあります。`;
+  }
+
+  // 経口摂取
+  if (has('飲んだ','飲み込んだ','誤飲','口に','経口','摂取')) {
+    return `【推定候補物質】
+1. 入力された状況から物質を特定してください（物質名があれば追記を）
+2. 有機溶媒類（誤飲は少量でも危険）
+3. 強酸・強アルカリ（口腔・食道の腐食）
+
+【すぐやること】
+1. 直ちに119番通報（経口摂取した物質名を伝える）
+2. 絶対に嘔吐させない（逆流で食道・気道がさらに損傷）
+3. 意識があれば水を少量（コップ1杯）飲ませて希釈
+4. 物質のラベル・SDSを持参または写真撮影
+5. 口腔内をティッシュで拭う（擦らない）
+
+【医療機関受診の判断】
+経口摂取の場合は症状の有無にかかわらず全員が緊急受診対象です。119番または直接附属病院救急へ。`;
+  }
+
+  // 意識消失・重篤
+  if (has('倒れ','意識','ぐったり','呼吸','けいれん','痙攣','反応がない','動かない')) {
+    return `【推定候補物質】
+1. シアン化物・アジ化ナトリウム― 急激な意識消失の最重要除外診断
+2. 有機溶媒（高濃度吸入）― 酸素欠乏・麻酔様作用
+3. 一酸化炭素（DCM代謝・不完全燃焼）― 気づきにくく複数人同時倒れに注意
+
+【すぐやること】
+1. 直ちに119番通報（今すぐ）
+2. 救助者は必ず換気・マスク着用で近づく（二次災害に注意）
+3. 呼吸・脈拍を確認、なければ胸骨圧迫を開始
+4. 倒れた場所・使用物質を救急隊員に伝える
+5. 他の在室者も全員避難・症状確認
+
+【医療機関受診の判断】
+意識がない・呼吸異常は最優先で119番です。救急隊到着まで胸骨圧迫を続けてください。`;
+  }
+
+  // デフォルト（キーワード不明）
+  return `【推定候補物質】
+入力内容からは特定の物質を絞り込めませんでした。以下を追記すると精度が上がります：
+・使用していた薬品名
+・においの特徴（甘い・刺激臭・無臭など）
+・症状の部位（目・皮膚・吸入など）
+
+【すぐやること】
+1. 実験を中断し、換気を確保
+2. 使用薬品のSDSを確認
+3. 症状がある場合はメディカルセンター救急外来へ
+4. 重篤な症状（意識不明・呼吸困難）は119番
+
+【医療機関受診の判断】
+判断に迷う場合は7119番（救急安心センター）に電話して症状を伝えてください。`;
+}
+
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+
+function setMode(m){
+  document.getElementById('name-mode').classList.toggle('hidden',m!=='name');
+  document.getElementById('sym-mode').classList.toggle('hidden',m!=='sym');
+  document.getElementById('ai-mode').classList.toggle('hidden',m!=='ai');
+  document.getElementById('btn-name').classList.toggle('active',m==='name');
+  document.getElementById('btn-sym').classList.toggle('active',m==='sym');
+  document.getElementById('btn-ai').classList.toggle('active',m==='ai');
+  if(m==='ai'){
+    document.getElementById('btn-ai').style.background='#185FA5';
+    document.getElementById('btn-ai').style.borderColor='#185FA5';
+    document.getElementById('btn-ai').style.color='#fff';
+  } else {
+    const ab=document.getElementById('btn-ai');
+    ab.style.background='';ab.style.borderColor='#B3D4F5';ab.style.color='#185FA5';
+  }
+}
+
+function setTab(t,el){
+  currentTab=t;
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  doFilter();
+}
+
+function doFilter(){
+  const q=(document.getElementById('q').value||'').trim();
+  let list=D;
+  if(currentTab==='solvent')list=list.filter(c=>c.cat==='solvent');
+  else if(currentTab==='acid')list=list.filter(c=>c.cat==='acid');
+  else if(currentTab==='inorganic')list=list.filter(c=>c.cat==='inorganic');
+  else if(currentTab==='high')list=list.filter(c=>c.risk==='high');
+  if(q){const ql=q.toLowerCase();list=list.filter(c=>(c.name+'　'+(c.search||'')+'　'+(c.use||'')).toLowerCase().includes(ql));}
+  document.getElementById('cnt').textContent=list.length+'件';
+  document.getElementById('results').innerHTML=list.length?list.map(cardHTML).join(''):noRes();
+}
+
+function symSearch(el,sym){
+  document.querySelectorAll('.chips button').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const list=D.filter(c=>c.sym.includes(sym));
+  const cntEl=document.getElementById('sym-cnt');
+  cntEl.textContent=list.length+'件該当';
+  cntEl.classList.remove('hidden');
+  document.getElementById('sym-results').innerHTML=list.length?list.map(symCardHTML).join(''):noRes();
+}
+
+function noRes(){
+  return '<div class="nores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><line x1="8" y1="11" x2="14" y2="11"/></svg>該当する物質が見つかりません</div>';
+}
+
+function symCardHTML(c){
+  const rl={high:'高リスク',med:'中リスク',low:'低リスク'}[c.risk];
+  const rc={high:'rh',med:'rm',low:'rl'}[c.risk];
+  return `<div class="sym-card" onclick="showDetail('${c.id}')">
+    <span class="rbadge ${rc}">${rl}</span>
+    <span class="cname">${c.name}</span>
+    <span class="ccat">${c.catL}</span>
+    <svg style="width:14px;height:14px;color:#B4B2A9;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>`;
+}
+
+function showDetail(id){
+  setMode('name');
+  document.getElementById('q').value='';
+  currentTab='all';
+  document.querySelectorAll('.tabs button').forEach((b,i)=>{b.classList.toggle('active',i===0);});
+  doFilter();
+  setTimeout(()=>{
+    if(openId&&openId!==id)closeCard(openId);
+    openCard(id);
+    const el=document.getElementById('card-'+id);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  },60);
+}
+
+function cardHTML(c){
+  const rl={high:'高リスク',med:'中リスク',low:'低リスク'}[c.risk];
+  const rc={high:'rh',med:'rm',low:'rl'}[c.risk];
+
+  const ngH=c.ng&&c.ng.length
+    ?`<div class="contra"><div class="contra-hdr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><span>絶対にしてはいけないこと</span></div><ul class="contra-list">${c.ng.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:'' ;
+
+  const cl=CL[c.id];
+  const clH=cl?`<div class="cl-block${clinicianMode?' active':''}">
+    <div class="cl-block-hdr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span>医療・管理者向け情報</span></div>
+    <div class="cl-rows">
+      <div class="cl-row"><span class="cl-lbl">経過観察</span><span class="cl-val">${cl.obs}</span></div>
+      <div class="cl-row"><span class="cl-lbl">採血・検査</span><span class="cl-val">${cl.blood}</span></div>
+      <div class="cl-row"><span class="cl-lbl">解毒・治療</span><span class="cl-val">${cl.antidote}</span></div>
+      ${DETAIL[c.id]?`<div style="padding:6px 0 2px"><button class="detail-btn" onclick="event.stopPropagation();openDetail('${c.id}','${c.name}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>詳細情報（解毒薬・検査・外部リンク）</button></div>`:''}
+    </div>
+  </div>`:'' ;
+
+  const dlH=c.delayed
+    ?`<div class="delayed"><div class="delayed-hdr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>遅発性に注意：${c.delayed.time}</span></div><div class="delayed-body">${c.delayed.note}</div></div>`:'' ;
+
+  const stH=c.steps.map((s,i)=>`<li><span class="snum">${i+1}</span><span>${s}</span></li>`).join('');
+  const ctH=c.contacts.map(ct=>`<div class="crow"><span class="clabel">${ct.l}</span><span class="cval">${ct.v}</span></div>`).join('');
+
+  const fnH=c.fire&&c.fire.ng&&c.fire.ng.length
+    ?`<div class="fproh"><div class="fproh-hdr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><span>してはいけないこと</span></div><ul class="fproh-list">${c.fire.ng.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:'' ;
+
+  const fsH=c.fire&&c.fire.steps?c.fire.steps.map((s,i)=>`<li><span class="fnum">${i+1}</span><span>${s}</span></li>`).join(''):'';
+
+  const firePane=c.fire?`<div class="pane" id="fp-${c.id}">
+    ${fnH}
+    <div class="fmtd">
+      <div class="frow"><span class="flbl">消火剤</span><span class="fval"><strong>${c.fire.ext}</strong></span></div>
+      <div class="frow"><span class="flbl">退避</span><span class="fval">${c.fire.evac}</span></div>
+      <div class="frow"><span class="flbl">漏洩時</span><span class="fval">${c.fire.leak}</span></div>
+    </div>
+    <div><div class="slabel">対応手順</div><ol class="steps">${fsH}</ol></div>
+  </div>`:'';
+
+  return `<div class="card" id="card-${c.id}">
+    <div class="card-hdr" onclick="toggleCard('${c.id}')">
+      <span class="rbadge ${rc}">${rl}</span>
+      <span class="cname">${c.hazard==="both"?"☠🔥 ":c.hazard==="fire"?"🔥 ":c.hazard==="toxic"?"☠ ":""}${c.name}</span>
+      <span class="ccat">${c.catL}</span>
+      <svg class="chev" id="chev-${c.id}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="cbody" id="body-${c.id}">
+      <div class="itabs">
+        <button class="itab active" id="it-p-${c.id}" onclick="switchTab(event,'${c.id}','p')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          初期対応
+        </button>
+        <button class="itab ftab" id="it-f-${c.id}" onclick="switchTab(event,'${c.id}','f')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>
+          火災・漏洩
+        </button>
+      </div>
+      <div class="pane active" id="pp-${c.id}">
+        ${ngH}${dlH}
+        <div class="abox ${c.alert.t}">${c.alert.s}</div>
+        <div><div class="slabel">法令区分</div><div class="scontent">${c.law}</div></div>
+        <div><div class="slabel">主な用途</div><div class="scontent">${c.use}</div></div>
+        <div><div class="slabel">初期対応手順</div><ol class="steps">${stH}</ol></div>
+        <div><div class="slabel">受診先</div><div class="contacts">${ctH}</div></div>
+        ${clH}
+      </div>
+      ${firePane}
+    </div>
+  </div>`;
+}
+
+function switchTab(e,id,pane){
+  e.stopPropagation();
+  const pp=document.getElementById('pp-'+id);
+  const fp=document.getElementById('fp-'+id);
+  const itp=document.getElementById('it-p-'+id);
+  const itf=document.getElementById('it-f-'+id);
+  if(!pp||!fp)return;
+  const toP=pane==='p';
+  pp.classList.toggle('active',toP);
+  fp.classList.toggle('active',!toP);
+  itp.classList.toggle('active',toP);
+  itf.classList.toggle('active',!toP);
+}
+
+function openCard(id){
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  if(!body)return;
+  body.classList.add('open');
+  chev.classList.add('open');
+  openId=id;
+}
+
+function closeCard(id){
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  if(!body)return;
+  body.classList.remove('open');
+  chev.classList.remove('open');
+}
+
+function toggleCard(id){
+  const body=document.getElementById('body-'+id);
+  if(!body)return;
+  const isOpen=body.classList.contains('open');
+  if(openId&&openId!==id)closeCard(openId);
+  if(isOpen){closeCard(id);openId=null;}
+  else{openCard(id);}
+}
+
+doFilter();
+</script>
+</div>
+<!-- ===== 管理者ページ（3タブ構成）===== -->
+<div id="admin-page" class="hidden" style="max-width:520px;margin:0 auto;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic UI',sans-serif;min-height:100vh;background:#F8F7F4">
+
+  <!-- ヘッダー -->
+  <div style="background:#1C1C1A;padding:12px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10">
+    <div style="width:30px;height:30px;border-radius:8px;background:#378ADD;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="width:16px;height:16px"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    </div>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:700;color:#fff">管理者ページ</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.5)">化学物質緊急対応ツール v5</div>
+    </div>
+    <button onclick="hideAdminPage()" style="background:rgba(255,255,255,0.1);border:none;border-radius:8px;color:#fff;font-size:12px;padding:6px 12px;cursor:pointer;font-family:inherit">&#8592; 戻る</button>
+  </div>
+
+  <!-- タブ切替 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:#fff;border-bottom:1px solid #EDECE8">
+    <button id="adm-tab-btn-1" onclick="switchAdminTab(1)" style="padding:10px 4px;font-size:12px;font-weight:700;border:none;border-bottom:2px solid #185FA5;color:#185FA5;background:#fff;cursor:pointer;font-family:inherit">&#129514; 物質管理</button>
+    <button id="adm-tab-btn-2" onclick="switchAdminTab(2)" style="padding:10px 4px;font-size:12px;font-weight:600;border:none;border-bottom:2px solid transparent;color:#B4B2A9;background:#fff;cursor:pointer;font-family:inherit">&#129302; AIナレッジ</button>
+    <button id="adm-tab-btn-3" onclick="switchAdminTab(3)" style="padding:10px 4px;font-size:12px;font-weight:600;border:none;border-bottom:2px solid transparent;color:#B4B2A9;background:#fff;cursor:pointer;font-family:inherit">&#9881; 設定</button>
+  </div>
+
+  <!-- タブ1：物質管理 -->
+  <div id="adm-tab-1" style="padding:12px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:22px;font-weight:700;color:#185FA5" id="adm-builtin-count">30</div>
+        <div style="font-size:10px;color:#5F5E5A;margin-top:2px">組み込み物質</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:22px;font-weight:700;color:#16A34A" id="adm-custom-count">0</div>
+        <div style="font-size:10px;color:#5F5E5A;margin-top:2px">追加物質</div>
+      </div>
+    </div>
+
+
+    <!-- CSV一括アップロード -->
+    <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;overflow:hidden;margin-bottom:12px">
+      <div style="background:#3B6D11;padding:10px 14px;display:flex;align-items:center;gap:8px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="width:15px;height:15px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span style="color:#fff;font-size:12px;font-weight:700">CSVで一括アップロード</span>
+      </div>
+      <div style="padding:14px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:11px;color:#5F5E5A;line-height:1.7">
+          CSVファイルで複数物質を一括登録できます。<br>
+          必須列：<strong>name, cat, risk, hazard, law</strong><br>
+          任意列：search, use, steps, sds
+        </div>
+        <button onclick="downloadCSVTemplate()" style="width:100%;padding:8px;background:#F0FDF4;color:#3B6D11;border:1.5px solid #86EFAC;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">
+          &#11015; CSVテンプレートをダウンロード
+        </button>
+        <label style="display:flex;align-items:center;gap:8px;padding:10px;background:#F8F7F4;border:1.5px dashed #D5D3CC;border-radius:8px;cursor:pointer;font-size:12px;color:#5F5E5A">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          CSVファイルを選択してアップロード
+          <input type="file" accept=".csv" onchange="importChemCSV(this)" style="display:none">
+        </label>
+        <div id="csv-import-result" style="display:none;padding:8px 10px;border-radius:8px;font-size:11px"></div>
+      </div>
+    </div>
+
+    <!-- 物質追加フォーム -->
+    <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;overflow:hidden;margin-bottom:12px">
+      <div style="background:#185FA5;padding:10px 14px;display:flex;align-items:center;gap:8px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" style="width:15px;height:15px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <span style="color:#fff;font-size:12px;font-weight:700">新規物質を追加</span>
+      </div>
+      <div style="padding:14px;display:flex;flex-direction:column;gap:10px">
+
+        <div style="font-size:10px;font-weight:700;color:#5F5E5A;letter-spacing:.06em;border-bottom:1px solid #EDECE8;padding-bottom:4px">必須項目</div>
+
+        <div>
+          <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">物質名（表示名）<span style="color:#DC2626">*</span></label>
+          <input id="adm-new-name" type="text" placeholder="例：ベンゼン" style="width:100%;padding:8px 10px;font-size:13px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;box-sizing:border-box;outline:none">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div>
+            <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">カテゴリ<span style="color:#DC2626">*</span></label>
+            <select id="adm-new-cat" style="width:100%;padding:8px 10px;font-size:13px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;background:#fff;outline:none;box-sizing:border-box">
+              <option value="solvent">有機溶媒</option>
+              <option value="acid">酸塩基</option>
+              <option value="inorganic">無機・金属</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">リスクレベル<span style="color:#DC2626">*</span></label>
+            <select id="adm-new-risk" style="width:100%;padding:8px 10px;font-size:13px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;background:#fff;outline:none;box-sizing:border-box">
+              <option value="high">高（毒物/危険等級I/GHS1-2）</option>
+              <option value="med">中（劇物/危険等級II/GHS3-4）</option>
+              <option value="low">低（上記以外）</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div>
+            <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">ハザード種別<span style="color:#DC2626">*</span></label>
+            <select id="adm-new-hazard" style="width:100%;padding:8px 10px;font-size:13px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;background:#fff;outline:none;box-sizing:border-box">
+              <option value="both">&#9760;&#128293; 有害性＋危険性</option>
+              <option value="toxic">&#9760; 有害性（毒性）</option>
+              <option value="fire">&#128293; 危険性（引火・爆発）</option>
+              <option value="">なし</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">法令区分<span style="color:#DC2626">*</span></label>
+            <input id="adm-new-law" type="text" placeholder="例：毒劇法：劇物" style="width:100%;padding:8px 10px;font-size:13px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;box-sizing:border-box;outline:none">
+          </div>
+        </div>
+
+        <div style="font-size:10px;font-weight:700;color:#5F5E5A;letter-spacing:.06em;border-bottom:1px solid #EDECE8;padding-bottom:4px;margin-top:4px">任意項目</div>
+
+        <div>
+          <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">別名・英名・CAS番号（スペース区切り・検索に使用）</label>
+          <input id="adm-new-search" type="text" placeholder="例：ベンゼン benzene C6H6 71-43-2" style="width:100%;padding:8px 10px;font-size:13px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;box-sizing:border-box;outline:none">
+        </div>
+
+        <div>
+          <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">主な用途（複数選択可）</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px" id="adm-use-checks">
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="反応溶媒"> 反応溶媒</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="洗浄溶媒"> 洗浄溶媒</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="抽出溶媒"> 抽出溶媒</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="クロマト移動相"> クロマト移動相</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="再結晶"> 再結晶</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="pH調整（酸）"> pH調整（酸）</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="pH調整（アルカリ）"> pH調整（アルカリ）</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="酸化剤"> 酸化剤</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="還元剤"> 還元剤</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="触媒"> 触媒</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="染色試薬"> 染色試薬</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="固定液"> 固定液</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="分析試薬"> 分析試薬</label>
+            <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="checkbox" value="滅菌・消毒"> 滅菌・消毒</label>
+          </div>
+          <input id="adm-use-custom" type="text" placeholder="上記にない用途（自由記述）" style="width:100%;padding:7px 10px;font-size:12px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;box-sizing:border-box;outline:none">
+        </div>
+
+        <div>
+          <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">初期対応手順（1行ずつ入力）</label>
+          <textarea id="adm-new-steps" placeholder="皮膚接触：流水で15分以上洗浄&#10;吸入：新鮮な空気へ移動" style="width:100%;padding:8px 10px;font-size:12px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;min-height:80px;resize:vertical;box-sizing:border-box;outline:none"></textarea>
+        </div>
+
+        <div>
+          <label style="font-size:11px;color:#5F5E5A;display:block;margin-bottom:3px">SDS補足情報（マイナー物質・独自情報用）</label>
+          <textarea id="adm-new-sds" placeholder="公開SDSに載っていない補足情報や学内固有の取り扱い情報" style="width:100%;padding:8px 10px;font-size:12px;font-family:inherit;border:1.5px solid #D5D3CC;border-radius:8px;min-height:60px;resize:vertical;box-sizing:border-box;outline:none"></textarea>
+        </div>
+
+        <button onclick="addCustomChem()" style="width:100%;padding:10px;background:#185FA5;color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">+ 物質を追加する</button>
+      </div>
+    </div>
+
+    <!-- 追加済み物質一覧 -->
+    <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;overflow:hidden">
+      <div style="padding:10px 14px;border-bottom:1px solid #EDECE8;font-size:12px;font-weight:700;color:#1C1C1A;display:flex;justify-content:space-between;align-items:center">
+        <span>追加済み物質</span>
+        <span id="adm-custom-list-count" style="font-size:11px;color:#5F5E5A">0件</span>
+      </div>
+      <div id="adm-custom-list" style="padding:10px 14px;font-size:12px;color:#B4B2A9;text-align:center;min-height:48px;display:flex;align-items:center;justify-content:center">
+        追加した物質がここに表示されます
+      </div>
+    </div>
+  </div>
+
+  <!-- タブ2：AIナレッジ（UIのみ） -->
+  <div id="adm-tab-2" class="hidden" style="padding:12px">
+    <div style="background:#FFF3CD;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#854F0B">
+      このタブは現在開発中です。本番実装時に有効化されます。
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;opacity:.5">
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:20px;font-weight:700;color:#92400E">12</div>
+        <div style="font-size:10px;color:#5F5E5A;margin-top:2px">ヒヤリハット事例</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:20px;font-weight:700;color:#185FA5" id="adm-patrol-count">0</div>
+        <div style="font-size:10px;color:#5F5E5A;margin-top:2px">巡視データ</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:20px;font-weight:700;color:#16A34A" id="adm-cris-count">0</div>
+        <div style="font-size:10px;color:#5F5E5A;margin-top:2px">CRIS物質</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:20px;font-weight:700;color:#7C3AED">0</div>
+        <div style="font-size:10px;color:#5F5E5A;margin-top:2px">マニュアル</div>
+      </div>
+    </div>
+    <div style="opacity:.5;pointer-events:none">
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;padding:14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:#1C1C1A;margin-bottom:6px">CRISデータ（CSV）</div>
+        <div style="background:#F8F7F4;border:1.5px dashed #D5D3CC;border-radius:8px;padding:12px;text-align:center;font-size:11px;color:#B4B2A9">実装予定</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;padding:14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:#1C1C1A;margin-bottom:6px">巡視システムデータ（CSV）</div>
+        <div style="background:#F8F7F4;border:1.5px dashed #D5D3CC;border-radius:8px;padding:12px;text-align:center;font-size:11px;color:#B4B2A9">実装予定</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;padding:14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:#1C1C1A;margin-bottom:6px">ヒヤリハット追加</div>
+        <div style="background:#F8F7F4;border:1.5px dashed #D5D3CC;border-radius:8px;padding:12px;text-align:center;font-size:11px;color:#B4B2A9">実装予定</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;padding:14px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:#1C1C1A;margin-bottom:6px">マニュアル・補足情報</div>
+        <div style="background:#F8F7F4;border:1.5px dashed #D5D3CC;border-radius:8px;padding:12px;text-align:center;font-size:11px;color:#B4B2A9">実装予定</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- タブ3：設定（UIのみ） -->
+  <div id="adm-tab-3" class="hidden" style="padding:12px">
+    <div style="background:#FFF3CD;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#854F0B">
+      このタブは現在開発中です。本番実装時に有効化されます。
+    </div>
+    <div style="opacity:.5;pointer-events:none">
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px">
+        <div style="font-size:24px">&#128273;</div>
+        <div><div style="font-size:13px;font-weight:700;color:#1C1C1A">パスコード変更</div><div style="font-size:11px;color:#5F5E5A;margin-top:2px">管理者パスコードを変更します</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px">
+        <div style="font-size:24px">&#128190;</div>
+        <div><div style="font-size:13px;font-weight:700;color:#1C1C1A">データエクスポート</div><div style="font-size:11px;color:#5F5E5A;margin-top:2px">追加物質・ナレッジデータをJSONでバックアップ</div></div>
+      </div>
+      <div style="background:#fff;border:1px solid #EDECE8;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px">
+        <div style="font-size:24px">&#128465;</div>
+        <div><div style="font-size:13px;font-weight:700;color:#1C1C1A">データリセット</div><div style="font-size:11px;color:#5F5E5A;margin-top:2px">追加したすべてのデータを削除します</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
